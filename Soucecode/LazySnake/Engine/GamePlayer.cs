@@ -1,15 +1,17 @@
-﻿using System;
+﻿using LazySnake.Resources;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static LazySnake.Engine.GameObject;
 
 namespace LazySnake.Engine
 {
     class GamePlayer
     {
-        public enum GamePlayerTurnSide
+        public enum GamePlayerDirection
         {
             Up = 1,
             UpLeft = 100,
@@ -21,66 +23,122 @@ namespace LazySnake.Engine
             Right = 4
         }
 
-        private GamePlayerTurnSide currentTurnSide;
-        private GameObject playerObject;
+        private GamePlayerDirection currentTurnSide;
+        private GameObject gameObject;
+        private GameEngine gameEngine;
 
-        public Dictionary<GamePlayerTurnSide, Bitmap> TextureMap = new Dictionary<GamePlayerTurnSide, Bitmap>();
-        public GamePlayer(GameObject playerObject)
+        public Dictionary<GamePlayerDirection, Bitmap> TextureMap = new Dictionary<GamePlayerDirection, Bitmap>();
+
+        public GamePlayer(GameEngine gameEngine)
         {
-            this.playerObject = playerObject;
+            this.gameEngine = gameEngine;
+        }
+
+        public void SetGameObject(GameObject gameObject)
+        {
+            this.gameObject = gameObject;
         }
 
         public void Walk()
         {
-
+            if(currentTurnSide == GamePlayerDirection.Up)
+            {
+                GameSpriteSheet playerSpriteSheet = new GameSpriteSheet(ResourceTextures.player_sheet, new System.Drawing.Point(32, 32));
+                GameAnimation walkUp = new GameAnimation("Player_WalkUp", new GameAnimation.AnimateStep[]
+                {
+                    new GameAnimation.AnimateStep()
+                    {
+                        PositionDiff = new System.Windows.Point(0, -5),
+                        Texture = playerSpriteSheet.GetSprite(3, 1),
+                        Time = 200
+                    },
+                    new GameAnimation.AnimateStep()
+                    {
+                        PositionDiff = new System.Windows.Point(0, -5),
+                        Texture = playerSpriteSheet.GetSprite(3, 2),
+                        Time = 200
+                    },
+                    new GameAnimation.AnimateStep()
+                    {
+                        PositionDiff = new System.Windows.Point(0, -5),
+                        Texture = playerSpriteSheet.GetSprite(3, 3),
+                        Time = 200
+                    },
+                    new GameAnimation.AnimateStep()
+                    {
+                        PositionDiff = new System.Windows.Point(0, -5),
+                        Texture = playerSpriteSheet.GetSprite(3, 4),
+                        Time = 200
+                    },
+                    new GameAnimation.AnimateStep()
+                    {
+                        PositionDiff = new System.Windows.Point(0, -5),
+                        Texture = playerSpriteSheet.GetSprite(3, 5),
+                        Time = 200
+                    }
+                }, runForever: false);
+                gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.X, gameObject.Coordinates.Y - 1), walkUp);
+            }
+            else if (currentTurnSide == GamePlayerDirection.Left)
+            {
+                gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.X - 1, gameObject.Coordinates.Y));
+            }
+            else if (currentTurnSide == GamePlayerDirection.Right)
+            {
+                gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.X + 1, gameObject.Coordinates.Y));
+            }
+            else if (currentTurnSide == GamePlayerDirection.Bottom)
+            {
+                gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.X, gameObject.Coordinates.Y + 1));
+            }
         }
 
         public void TurnUp()
         {
-            currentTurnSide = GamePlayerTurnSide.Up;
-            playerObject.SetTexture(TextureMap[currentTurnSide]);
+            currentTurnSide = GamePlayerDirection.Up;
+            gameObject.SetTexture(TextureMap[currentTurnSide]);
         }
 
         public void TurnUpLeft()
         {
-            currentTurnSide = GamePlayerTurnSide.UpLeft;
-            playerObject.SetTexture(TextureMap[currentTurnSide]);
+            currentTurnSide = GamePlayerDirection.UpLeft;
+            gameObject.SetTexture(TextureMap[currentTurnSide]);
         }
 
         public void TurnUpRight()
         {
-            currentTurnSide = GamePlayerTurnSide.UpRight;
-            playerObject.SetTexture(TextureMap[currentTurnSide]);
+            currentTurnSide = GamePlayerDirection.UpRight;
+            gameObject.SetTexture(TextureMap[currentTurnSide]);
         }
 
         public void TurnLeft()
         {
-            currentTurnSide = GamePlayerTurnSide.Left;
-            playerObject.SetTexture(TextureMap[currentTurnSide]);
+            currentTurnSide = GamePlayerDirection.Left;
+            gameObject.SetTexture(TextureMap[currentTurnSide]);
         }
 
         public void TurnBottom()
         {
-            currentTurnSide = GamePlayerTurnSide.Bottom;
-            playerObject.SetTexture(TextureMap[currentTurnSide]);
+            currentTurnSide = GamePlayerDirection.Bottom;
+            gameObject.SetTexture(TextureMap[currentTurnSide]);
         }
 
         public void TurnBottomLeft()
         {
-            currentTurnSide = GamePlayerTurnSide.BottomLeft;
-            playerObject.SetTexture(TextureMap[currentTurnSide]);
+            currentTurnSide = GamePlayerDirection.BottomLeft;
+            gameObject.SetTexture(TextureMap[currentTurnSide]);
         }
 
         public void TurnBottomRight()
         {
-            currentTurnSide = GamePlayerTurnSide.BottomRight;
-            playerObject.SetTexture(TextureMap[currentTurnSide]);
+            currentTurnSide = GamePlayerDirection.BottomRight;
+            gameObject.SetTexture(TextureMap[currentTurnSide]);
         }
 
         public void TurnRight()
         {
-            currentTurnSide = GamePlayerTurnSide.Right;
-            playerObject.SetTexture(TextureMap[currentTurnSide]);
+            currentTurnSide = GamePlayerDirection.Right;
+            gameObject.SetTexture(TextureMap[currentTurnSide]);
         }
     }
 }

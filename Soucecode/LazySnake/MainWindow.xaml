@@ -12,6 +12,20 @@
                 <MenuItem Header="_Load Map"/>
                 <MenuItem Header="_Create Map" Click="MenuItem_Click"/>
             </MenuItem>
+            <MenuItem Header="_Commands">
+                <MenuItem Header="_TurnUpLeft()" Click="MenuItemCommand_TurnUpLeft"/>
+                <MenuItem Header="_TurnUp()" Click="MenuItemCommand_TurnUp"/>
+                <MenuItem Header="_TurnUpRight()" Click="MenuItemCommand_TurnUpRight"/>
+                <Separator />
+                <MenuItem Header="_TurnLeft()" Click="MenuItemCommand_TurnLeft"/>
+                <MenuItem Header="_TurnRight()" Click="MenuItemCommand_TurnRight"/>
+                <Separator />
+                <MenuItem Header="_TurnBottomLeft()" Click="MenuItemCommand_TurnBottomLeft"/>
+                <MenuItem Header="_TurnBottom()" Click="MenuItemCommand_TurnBottom"/>
+                <MenuItem Header="_TurnBottomRight()" Click="MenuItemCommand_TurnBottomRight"/>
+                <Separator />
+                <MenuItem Header="_Walk" Click="MenuItemCommand_Walk"/>
+            </MenuItem>
         </Menu>
         <Border CornerRadius="0" BorderBrush="#FF034719" Background="LightGray" BorderThickness="1" Margin="2,2,2,2" Height="735">
             <Canvas x:Name="canvasGameMap" Background="#FFE6E6E6" Margin="0,0,0,0"/>

@@ -38,10 +38,57 @@ namespace LazySnake
             winCreator.ShowDialog();
         }
 
+        private void MenuItemCommand_TurnUpLeft(object sender, RoutedEventArgs e)
+        {
+            player.TurnUpLeft();
+        }
+
+        private void MenuItemCommand_TurnUp(object sender, RoutedEventArgs e)
+        {
+            player.TurnUp();
+        }
+        private void MenuItemCommand_TurnUpRight(object sender, RoutedEventArgs e)
+        {
+            player.TurnUpRight();
+        }
+
+        private void MenuItemCommand_TurnBottomLeft(object sender, RoutedEventArgs e)
+        {
+            player.TurnBottomLeft();
+        }
+
+        private void MenuItemCommand_TurnBottom(object sender, RoutedEventArgs e)
+        {
+            player.TurnBottom();
+        }
+        private void MenuItemCommand_TurnBottomRight(object sender, RoutedEventArgs e)
+        {
+            player.TurnBottomRight();
+        }
+
+        private void MenuItemCommand_TurnLeft(object sender, RoutedEventArgs e)
+        {
+            player.TurnLeft();
+        }
+
+        private void MenuItemCommand_TurnRight(object sender, RoutedEventArgs e)
+        {
+            player.TurnRight();
+        }
+
+        private void MenuItemCommand_Walk(object sender, RoutedEventArgs e)
+        {
+            player.Walk();
+        }
+
+        private GamePlayer player;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             GameEngine engine = new GameEngine(this.canvasGameMap);
             engine.LoadMap(ResourceMaps.Map01);
+            player = engine.GetPlayer(0);
+            player.TurnUp();
         }
     }
 }

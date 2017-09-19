@@ -28,17 +28,20 @@ namespace LazySnake.Engine
 
         public GameObject GameObject;
 
+        public bool RunForever;
+
         public GameAnimation(string name, AnimateStep[] steps)
         {
             this.Name = name;
             this.Steps = steps;
         }
 
-        public GameAnimation(string name, AnimateStep[] steps, GameObject gameObject)
+        public GameAnimation(string name, AnimateStep[] steps, GameObject gameObject = null, bool runForever = true)
         {
             this.Name = name;
             this.Steps = steps;
             this.GameObject = gameObject;
+            this.RunForever = runForever;
         }
 
         public void SetGameObject(GameObject gameObject)
@@ -55,7 +58,14 @@ namespace LazySnake.Engine
                 if (index < Steps.Length - 1)
                     index++;
                 else
-                    index = 0;
+                {
+                    if(RunForever == true)
+                        index = 0;
+                    else
+                    {
+                        timer.Stop();
+                    }
+                }
 
                 Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new ThreadStart(delegate
                 {

@@ -18,23 +18,45 @@ namespace LazySnake.Engine
 {
     public class GameObject
     {
+        public class Coordinate
+        {
+            public int X;
+            public int Y;
+
+            public Coordinate(int x, int y)
+            {
+                this.X = x;
+                this.Y = y;
+            }
+        }
+
+        public GameObject NeighborTop;
+        public GameObject NeighborTopLeft;
+        public GameObject NeighborTopRight;
+        public GameObject NeighborLeft;
+        public GameObject NeighborRight;
+        public GameObject NeighborBottom;
+        public GameObject NeighborBottomLeft;
+        public GameObject NeighborBottomRight;
+
         public enum GameObjectType
         {
             Wall = 0,
             Player = 1,
             Target = 1
         }
+
         public string Identifier { get; set; }
         public GameObjectType Type { get; set; }
         public Bitmap Texture { get; set; }
-
         public System.Windows.Size Size { get; set; }
-
         public System.Windows.Point Position { get; set; }
+        public Coordinate Coordinates { get; set; }
 
         private System.Windows.Controls.Image renderPanel;
-        public GameObject()
+        public GameObject(Coordinate mapCoordinates)
         {
+            this.Coordinates = mapCoordinates;
             this.renderPanel = new System.Windows.Controls.Image();
         }
 
@@ -64,8 +86,10 @@ namespace LazySnake.Engine
             renderPanel.VerticalAlignment = VerticalAlignment.Center;
             renderPanel.Stretch = Stretch.Uniform;
             layer.Children.Add(renderPanel);
-            SetPosition(Position);
-            SetTexture(Texture);
+            if(Position != null)
+                SetPosition(Position);
+            if(Texture != null)
+                SetTexture(Texture);
             return renderPanel;
         }
 

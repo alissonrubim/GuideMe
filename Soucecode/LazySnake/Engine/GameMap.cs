@@ -22,6 +22,10 @@ namespace LazySnake.Engine
 {
     class GameMap
     {
+        public delegate void RenderGameObjectHandle(GameObject gameObject);
+
+        public RenderGameObjectHandle OnRenderGameObject;
+
         private GameObject[,] mapItems;
         private GameEngine engine;
         private const int blockSize = 25;
@@ -48,19 +52,19 @@ namespace LazySnake.Engine
                 int col = Convert.ToInt32(itemNode.Attributes["col"].Value);
                 mapItems[row, col] = null;
                 if (itemNode.InnerText == "1")
-                    mapItems[row, col] = new GameObject()
+                    mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
                         Type = GameObject.GameObjectType.Wall,
                         Size = new System.Windows.Size(blockSize, blockSize)
                     };
                 else if (itemNode.InnerText == "2")
-                    mapItems[row, col] = new GameObject()
+                    mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
                         Type = GameObject.GameObjectType.Player,
                         Size = new System.Windows.Size(blockSize, blockSize)
                     };
                 else if (itemNode.InnerText == "3")
-                    mapItems[row, col] = new GameObject()
+                    mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
                         Type = GameObject.GameObjectType.Target,
                         Size = new System.Windows.Size(blockSize, blockSize)
@@ -94,128 +98,71 @@ namespace LazySnake.Engine
             brush.ViewportUnits = BrushMappingMode.Absolute;
             backgroundLayer.Background = brush;
 
-            GameSpriteSheet playerSpriteSheet = new GameSpriteSheet(ResourceTextures.player_sheet, new System.Drawing.Point(32, 32));
-
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < colCount; j++)
                 {
                     if (mapItems[i, j] != null)
                     {
-                        GameObject mapItem = mapItems[i, j];
-                        mapItem.Position = new System.Windows.Point(j * mapItem.Size.Height, i * mapItem.Size.Width);
-                        if (mapItems[i, j].Type == GameObject.GameObjectType.Wall)
-                        {
-                            mapItem.Texture = ResourceTextures.wall;
+                        GameObject gameObject = mapItems[i, j];
+                        gameObject.Position = new System.Windows.Point(j * gameObject.Size.Height, i * gameObject.Size.Width);
 
-                            if (!hasBottom(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_bottom);
+                        processNeighbors(gameObject);
 
-                            if (!hasTop(i, j) && !hasRight(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_top);
-
-                            if (hasBottom(i, j) && hasRight(i, j) && !hasBottomRight(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_3);
-
-                            if (!hasBottom(i, j) && !hasRight(i, j) && !hasLeft(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_bottom_right);
-
-                            if (!hasBottom(i, j) && !hasRight(i, j) && hasTop(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_7);
-
-                            if (!hasBottom(i, j) && !hasRight(i, j) && hasTop(i, j) && hasLeft(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_6);
-
-                            if (hasBottom(i, j) && hasTop(i, j) && !hasRight(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_side_right);
-
-                            if (!hasBottom(i, j) && !hasRight(i, j) && !hasTop(i, j) && hasLeft(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_5);
-
-                            if (!hasBottom(i, j) && hasRight(i, j) && !hasLeft(i, j))
-                                mapItem.SetTexture(ResourceTextures.wall_4);
-
-                            mapItem.Render(engine.GetLayerByIndex(1));
-                        }
-                        else if (mapItems[i, j].Type == GameObject.GameObjectType.Player)
-                        {
-                            GamePlayer player = new GamePlayer(mapItem);
-                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.Up, playerSpriteSheet.GetSprite(3, 1));
-                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.UpLeft, playerSpriteSheet.GetSprite(2, 7));
-                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.UpRight, playerSpriteSheet.GetSprite(3, 10));
-                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.Left, playerSpriteSheet.GetSprite(1, 1));
-                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.Right, playerSpriteSheet.GetSprite(2, 4));
-                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.Bottom, playerSpriteSheet.GetSprite(0, 1));
-                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.BottomLeft, playerSpriteSheet.GetSprite(1, 7));
-                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.BottomRight, playerSpriteSheet.GetSprite(0, 7));
-                            player.TurnBottom();
-                            mapItem.Position = new System.Windows.Point(mapItem.Position.X, mapItem.Position.Y - 5);
-                            mapItem.Render(engine.GetLayerByIndex(2));
-
-
-                            player.Walk();
-                            /*GameAnimation a = new GameAnimation("Walk_Left", new GameAnimation.AnimateStep[]
-                             {
-                                 new AnimateStep()
-                                 {
-                                     Texture = playerSpriteSheet.GetSprite(1,1),
-                                     PositionDiff = new System.Windows.Point(-5, 0),
-                                     Time = 200
-                                 },
-                                 new AnimateStep()
-                                 {
-                                     Texture = playerSpriteSheet.GetSprite(1,2),
-                                     PositionDiff = new System.Windows.Point(-5, 0),
-                                     Time = 200
-                                 },
-                                 new AnimateStep()
-                                 {
-                                     Texture = playerSpriteSheet.GetSprite(1,0),
-                                     PositionDiff = new System.Windows.Point(-2, 0),
-                                     Time = 200
-                                 }
-                             }, mapItem);
-
-                            mapItem.Animate(a);*/
-
-                            // mapItem.GoTo(new System.Windows.Point(mapItem.Position.X + 100, mapItem.Position.Y));
-                        }
-                        else if (mapItems[i, j].Type == GameObject.GameObjectType.Target)
-                        {
-                           // mapItem.SetTexture(ResourceTextures.Diamond_1);
-                            //mapItem.Render(engine.GetLayerByIndex(2));
-                        }
+                        if (OnRenderGameObject != null)
+                            OnRenderGameObject(gameObject);
                     }
                 }
             }
         }
 
-
-
-        public bool hasTop(int i, int j)
+        public GameObject GetGameObjectAt(int row, int col)
         {
-            return i > 0 && mapItems[i - 1, j]  != null && mapItems[i - 1, j].Type == GameObject.GameObjectType.Wall;
+            return mapItems[row, col];
         }
 
-        public bool hasBottom(int i, int j)
+        public void MoveTo(GameObject gameObject, Coordinate coordinate, bool moveObject = true)
         {
-            return i < mapItems.GetLength(0) - 1 && mapItems[i + 1, j] != null && mapItems[i + 1, j].Type == GameObject.GameObjectType.Wall;
+            int walkDistanceX = coordinate.X - gameObject.Coordinates.X;
+            int walkDistanceY = coordinate.Y - gameObject.Coordinates.Y;
+
+            mapItems[gameObject.Coordinates.X, gameObject.Coordinates.Y] = null;
+            mapItems[coordinate.X, coordinate.Y] = gameObject;
+            gameObject.Coordinates = coordinate;
+            processNeighbors(gameObject);
+            if(moveObject)
+                gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X + (walkDistanceX * blockSize) , gameObject.GetPosition().Y + (walkDistanceY * blockSize)));
         }
 
-        public bool hasRight(int i, int j)
+        public void MoveTo(GameObject gameObject, Coordinate coordinate, GameAnimation animation)
         {
-            return j < mapItems.GetLength(1) - 1 && mapItems[i, j + 1] != null && mapItems[i, j + 1].Type == GameObject.GameObjectType.Wall;
+            MoveTo(gameObject, coordinate, false);
+            gameObject.Animate(animation);
         }
 
-        public bool hasLeft(int i, int j)
+        private void processNeighbors(GameObject gameObject)
         {
-            return j > 0 && mapItems[i, j - 1] != null && mapItems[i, j - 1].Type == GameObject.GameObjectType.Wall;
-        }
+            int i = gameObject.Coordinates.X;
+            int j = gameObject.Coordinates.Y;
+            int rowCount = mapItems.GetLength(0);
+            int colCount = mapItems.GetLength(1);
 
-        public bool hasBottomRight(int i, int j)
-        {
-            return i < mapItems.GetLength(0) - 1 && j < mapItems.GetLength(1) - 1 && mapItems[i + 1, j + 1] != null && mapItems[i + 1, j + 1].Type == GameObject.GameObjectType.Wall;
-
+            if (i > 0)
+                gameObject.NeighborTop = mapItems[i - 1, j];
+            if (i > 0 && j > 0)
+                gameObject.NeighborTopLeft = mapItems[i - 1, j - 1];
+            if (i > 0 && j < colCount - 1)
+                gameObject.NeighborTopRight = mapItems[i - 1, j + 1];
+            if (j > 0)
+                gameObject.NeighborLeft = mapItems[i, j - 1];
+            if (j < colCount - 1)
+                gameObject.NeighborRight = mapItems[i, j + 1];
+            if (i < rowCount - 1)
+                gameObject.NeighborBottom = mapItems[i + 1, j];
+            if (i < rowCount - 1 && j > 0)
+                gameObject.NeighborBottomLeft = mapItems[i + 1, j - 1];
+            if (i < rowCount - 1 && j < colCount - 1)
+                gameObject.NeighborBottomRight = mapItems[i + 1, j + 1];
         }
     }
 }
