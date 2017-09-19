@@ -27,7 +27,8 @@ namespace LazySnake.Engine
         private GameObject gameObject;
         private GameEngine gameEngine;
 
-        public Dictionary<GamePlayerDirection, Bitmap> TextureMap = new Dictionary<GamePlayerDirection, Bitmap>();
+        public Dictionary<GamePlayerDirection, Bitmap> TextureDictionary = new Dictionary<GamePlayerDirection, Bitmap>();
+        public Dictionary<GamePlayerDirection, GameAnimation> AnimationDictionary = new Dictionary<GamePlayerDirection, GameAnimation>();
 
         public GamePlayer(GameEngine gameEngine)
         {
@@ -43,102 +44,72 @@ namespace LazySnake.Engine
         {
             if(currentTurnSide == GamePlayerDirection.Up)
             {
-                GameSpriteSheet playerSpriteSheet = new GameSpriteSheet(ResourceTextures.player_sheet, new System.Drawing.Point(32, 32));
-                GameAnimation walkUp = new GameAnimation("Player_WalkUp", new GameAnimation.AnimateStep[]
-                {
-                    new GameAnimation.AnimateStep()
-                    {
-                        PositionDiff = new System.Windows.Point(0, -5),
-                        Texture = playerSpriteSheet.GetSprite(3, 1),
-                        Time = 200
-                    },
-                    new GameAnimation.AnimateStep()
-                    {
-                        PositionDiff = new System.Windows.Point(0, -5),
-                        Texture = playerSpriteSheet.GetSprite(3, 2),
-                        Time = 200
-                    },
-                    new GameAnimation.AnimateStep()
-                    {
-                        PositionDiff = new System.Windows.Point(0, -5),
-                        Texture = playerSpriteSheet.GetSprite(3, 3),
-                        Time = 200
-                    },
-                    new GameAnimation.AnimateStep()
-                    {
-                        PositionDiff = new System.Windows.Point(0, -5),
-                        Texture = playerSpriteSheet.GetSprite(3, 4),
-                        Time = 200
-                    },
-                    new GameAnimation.AnimateStep()
-                    {
-                        PositionDiff = new System.Windows.Point(0, -5),
-                        Texture = playerSpriteSheet.GetSprite(3, 5),
-                        Time = 200
-                    }
-                }, runForever: false);
-                gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.X, gameObject.Coordinates.Y - 1), walkUp);
+                if(gameObject.Neighbors.Top == null || gameObject.Neighbors.Top.Type != GameObjectType.Wall)
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col), AnimationDictionary[GamePlayerDirection.Up]);
             }
             else if (currentTurnSide == GamePlayerDirection.Left)
             {
-                gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.X - 1, gameObject.Coordinates.Y));
+                if (gameObject.Neighbors.Left == null || gameObject.Neighbors.Left.Type != GameObjectType.Wall)
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col - 1), AnimationDictionary[GamePlayerDirection.Left]);
             }
             else if (currentTurnSide == GamePlayerDirection.Right)
             {
-                gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.X + 1, gameObject.Coordinates.Y));
+                if (gameObject.Neighbors.Right == null || gameObject.Neighbors.Right.Type != GameObjectType.Wall)
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col + 1), AnimationDictionary[GamePlayerDirection.Right]);
             }
             else if (currentTurnSide == GamePlayerDirection.Bottom)
             {
-                gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.X, gameObject.Coordinates.Y + 1));
+                if (gameObject.Neighbors.Bottom == null || gameObject.Neighbors.Bottom.Type != GameObjectType.Wall)
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col), AnimationDictionary[GamePlayerDirection.Bottom]);
             }
         }
 
         public void TurnUp()
         {
             currentTurnSide = GamePlayerDirection.Up;
-            gameObject.SetTexture(TextureMap[currentTurnSide]);
+            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
         public void TurnUpLeft()
         {
             currentTurnSide = GamePlayerDirection.UpLeft;
-            gameObject.SetTexture(TextureMap[currentTurnSide]);
+            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
         public void TurnUpRight()
         {
             currentTurnSide = GamePlayerDirection.UpRight;
-            gameObject.SetTexture(TextureMap[currentTurnSide]);
+            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
         public void TurnLeft()
         {
             currentTurnSide = GamePlayerDirection.Left;
-            gameObject.SetTexture(TextureMap[currentTurnSide]);
+            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
         public void TurnBottom()
         {
             currentTurnSide = GamePlayerDirection.Bottom;
-            gameObject.SetTexture(TextureMap[currentTurnSide]);
+            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
         public void TurnBottomLeft()
         {
             currentTurnSide = GamePlayerDirection.BottomLeft;
-            gameObject.SetTexture(TextureMap[currentTurnSide]);
+            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
         public void TurnBottomRight()
         {
             currentTurnSide = GamePlayerDirection.BottomRight;
-            gameObject.SetTexture(TextureMap[currentTurnSide]);
+            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
         public void TurnRight()
         {
             currentTurnSide = GamePlayerDirection.Right;
-            gameObject.SetTexture(TextureMap[currentTurnSide]);
+            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
     }
 }

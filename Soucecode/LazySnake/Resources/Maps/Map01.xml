@@ -124,11 +124,11 @@
   <vertex col="11" row="0">1</vertex>
   <vertex col="11" row="1">0</vertex>
   <vertex col="11" row="2">0</vertex>
-  <vertex col="11" row="3">0</vertex>
-  <vertex col="11" row="4">0</vertex>
+  <vertex col="11" row="3">1</vertex>
+  <vertex col="11" row="4">1</vertex>
   <vertex col="11" row="5">2</vertex>
-  <vertex col="11" row="6">0</vertex>
-  <vertex col="11" row="7">0</vertex>
+  <vertex col="11" row="6">1</vertex>
+  <vertex col="11" row="7">1</vertex>
   <vertex col="11" row="8">0</vertex>
   <vertex col="11" row="9">1</vertex>
 
@@ -136,9 +136,9 @@
   <vertex col="12" row="1">0</vertex>
   <vertex col="12" row="2">0</vertex>
   <vertex col="12" row="3">0</vertex>
-  <vertex col="12" row="4">0</vertex>
+  <vertex col="12" row="4">1</vertex>
   <vertex col="12" row="5">0</vertex>
-  <vertex col="12" row="6">0</vertex>
+  <vertex col="12" row="6">1</vertex>
   <vertex col="12" row="7">0</vertex>
   <vertex col="12" row="8">0</vertex>
   <vertex col="12" row="9">1</vertex>

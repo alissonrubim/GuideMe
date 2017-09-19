@@ -123,11 +123,11 @@ namespace LazySnake.Engine
 
         public void MoveTo(GameObject gameObject, Coordinate coordinate, bool moveObject = true)
         {
-            int walkDistanceX = coordinate.X - gameObject.Coordinates.X;
-            int walkDistanceY = coordinate.Y - gameObject.Coordinates.Y;
+            int walkDistanceX = coordinate.Col - gameObject.Coordinates.Col;
+            int walkDistanceY = coordinate.Row - gameObject.Coordinates.Row;
 
-            mapItems[gameObject.Coordinates.X, gameObject.Coordinates.Y] = null;
-            mapItems[coordinate.X, coordinate.Y] = gameObject;
+            mapItems[gameObject.Coordinates.Row, gameObject.Coordinates.Col] = null;
+            mapItems[coordinate.Row, coordinate.Col] = gameObject;
             gameObject.Coordinates = coordinate;
             processNeighbors(gameObject);
             if(moveObject)
@@ -136,33 +136,35 @@ namespace LazySnake.Engine
 
         public void MoveTo(GameObject gameObject, Coordinate coordinate, GameAnimation animation)
         {
-            MoveTo(gameObject, coordinate, false);
+            MoveTo(gameObject, coordinate, moveObject: false);
             gameObject.Animate(animation);
         }
 
         private void processNeighbors(GameObject gameObject)
         {
-            int i = gameObject.Coordinates.X;
-            int j = gameObject.Coordinates.Y;
+            int i = gameObject.Coordinates.Row;
+            int j = gameObject.Coordinates.Col;
             int rowCount = mapItems.GetLength(0);
             int colCount = mapItems.GetLength(1);
 
+            gameObject.Neighbors = new Neighbor();
+
             if (i > 0)
-                gameObject.NeighborTop = mapItems[i - 1, j];
+                gameObject.Neighbors.Top = mapItems[i - 1, j];
             if (i > 0 && j > 0)
-                gameObject.NeighborTopLeft = mapItems[i - 1, j - 1];
+                gameObject.Neighbors.TopLeft = mapItems[i - 1, j - 1];
             if (i > 0 && j < colCount - 1)
-                gameObject.NeighborTopRight = mapItems[i - 1, j + 1];
+                gameObject.Neighbors.TopRight = mapItems[i - 1, j + 1];
             if (j > 0)
-                gameObject.NeighborLeft = mapItems[i, j - 1];
+                gameObject.Neighbors.Left = mapItems[i, j - 1];
             if (j < colCount - 1)
-                gameObject.NeighborRight = mapItems[i, j + 1];
+                gameObject.Neighbors.Right = mapItems[i, j + 1];
             if (i < rowCount - 1)
-                gameObject.NeighborBottom = mapItems[i + 1, j];
+                gameObject.Neighbors.Bottom = mapItems[i + 1, j];
             if (i < rowCount - 1 && j > 0)
-                gameObject.NeighborBottomLeft = mapItems[i + 1, j - 1];
+                gameObject.Neighbors.BottomLeft = mapItems[i + 1, j - 1];
             if (i < rowCount - 1 && j < colCount - 1)
-                gameObject.NeighborBottomRight = mapItems[i + 1, j + 1];
+                gameObject.Neighbors.BottomRight = mapItems[i + 1, j + 1];
         }
     }
 }

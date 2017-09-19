@@ -20,24 +20,27 @@ namespace LazySnake.Engine
     {
         public class Coordinate
         {
-            public int X;
-            public int Y;
+            public int Col;
+            public int Row;
 
-            public Coordinate(int x, int y)
+            public Coordinate(int row, int col)
             {
-                this.X = x;
-                this.Y = y;
+                this.Col = col;
+                this.Row = row;
             }
         }
 
-        public GameObject NeighborTop;
-        public GameObject NeighborTopLeft;
-        public GameObject NeighborTopRight;
-        public GameObject NeighborLeft;
-        public GameObject NeighborRight;
-        public GameObject NeighborBottom;
-        public GameObject NeighborBottomLeft;
-        public GameObject NeighborBottomRight;
+        public class Neighbor
+        {
+            public GameObject Top;
+            public GameObject TopLeft;
+            public GameObject TopRight;
+            public GameObject Left;
+            public GameObject Right;
+            public GameObject Bottom;
+            public GameObject BottomLeft;
+            public GameObject BottomRight;
+        }
 
         public enum GameObjectType
         {
@@ -46,6 +49,7 @@ namespace LazySnake.Engine
             Target = 1
         }
 
+        public Neighbor Neighbors { get; set; }
         public string Identifier { get; set; }
         public GameObjectType Type { get; set; }
         public Bitmap Texture { get; set; }
