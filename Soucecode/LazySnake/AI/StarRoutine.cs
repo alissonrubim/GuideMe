@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LazySnake.Engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace LazySnake
 {
     class StarRoutine
     {
-        public bool Start(Map map, Vertex origin, Vertex target, Heuristic heuristic, out List<Vertex> path)
+        public bool Start(GameMap map, Vertex origin, Vertex target, Heuristic heuristic, out List<Vertex> path)
         {
             TrackQueue opened = new TrackQueue();
             Dictionary<Vertex, Track> closed = new Dictionary<Vertex, Track>();

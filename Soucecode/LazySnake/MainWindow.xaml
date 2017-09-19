@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LazySnake"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="600" Width="800">
     <StackPanel>
-        <StackPanel Name="stackPanelGameMap">
-
-        </StackPanel>
-        <Label>Click to begin</Label>
-        <StackPanel Orientation="Horizontal">
-            <Button Name="btnStart" Width="150" Margin="5" Visibility="Hidden" Click="btnStart_Click">Start</Button>
-            <Button Name="btnStop" Width="150" Margin="5" Visibility="Hidden" Click="btnStop_Click">Stop</Button>
-        </StackPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Game">
+                <MenuItem Header="_Load Map"/>
+                <MenuItem Header="_Create Map" Click="MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+        <Border CornerRadius="0" BorderBrush="#FF034719" Background="LightGray" BorderThickness="1" Margin="20">
+            <Canvas x:Name="canvasGameMap" Height="300" Width="500" Background="#FFD1E2CA" Margin="0"/>
+        </Border>
     </StackPanel>
 </Window>

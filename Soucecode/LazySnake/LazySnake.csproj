@@ -56,8 +56,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Heuristic.cs" />
-    <Compile Include="Map.cs" />
+    <Compile Include="Engine\GameAnimation.cs" />
+    <Compile Include="Engine\GameEngine.cs" />
+    <Compile Include="AI\Heuristic.cs" />
+    <Compile Include="Engine\GameObject.cs" />
+    <Compile Include="Engine\GameMap.cs" />
+    <Compile Include="Engine\GameSpriteSheet.cs" />
+    <Compile Include="MapCreatorWindow.xaml.cs">
+      <DependentUpon>MapCreatorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\ResourceMaps.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -68,10 +75,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceTextures.resx</DependentUpon>
     </Compile>
-    <Compile Include="StarRoutine.cs" />
-    <Compile Include="TrackQueue.cs" />
-    <Compile Include="Track.cs" />
-    <Compile Include="Vertex.cs" />
+    <Compile Include="AI\StarRoutine.cs" />
+    <Compile Include="AI\TrackQueue.cs" />
+    <Compile Include="AI\Track.cs" />
+    <Compile Include="AI\Vertex.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,6 +91,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MapCreatorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -133,6 +144,57 @@
     <Resource Include="Resources\Maps\Map01.xml">
       <SubType>Designer</SubType>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\Diamond.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_side.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_bottom_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_side_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\wall_7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\Diamond_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\Diamond_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\player_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\player_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\sprites_player.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
