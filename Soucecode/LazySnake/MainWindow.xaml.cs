@@ -30,16 +30,18 @@ namespace LazySnake
         public MainWindow()
         {
             InitializeComponent();
-
-            GameEngine engine = new GameEngine(this.canvasGameMap);
-            GameMap currentMap = new GameMap(engine);
-            currentMap.LoadMap(ResourceMaps.Map01);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MapCreatorWindow winCreator = new MapCreatorWindow();
             winCreator.ShowDialog();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            GameEngine engine = new GameEngine(this.canvasGameMap);
+            engine.LoadMap(ResourceMaps.Map01);
         }
     }
 }

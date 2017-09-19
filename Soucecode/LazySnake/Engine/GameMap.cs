@@ -94,13 +94,13 @@ namespace LazySnake.Engine
             brush.ViewportUnits = BrushMappingMode.Absolute;
             backgroundLayer.Background = brush;
 
-            GameSpriteSheet playerSpriteSheet = new GameSpriteSheet(ResourceTextures.sprites_player, new System.Drawing.Point(32,32));
+            GameSpriteSheet playerSpriteSheet = new GameSpriteSheet(ResourceTextures.sprites_player, new System.Drawing.Point(32, 32));
 
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < colCount; j++)
                 {
-                    if(mapItems[i,j] != null)
+                    if (mapItems[i, j] != null)
                     {
                         GameObject mapItem = mapItems[i, j];
                         mapItem.Position = new System.Windows.Point(j * mapItem.Size.Height, i * mapItem.Size.Width);
@@ -110,7 +110,7 @@ namespace LazySnake.Engine
 
                             if (!hasBottom(i, j))
                                 mapItem.SetTexture(ResourceTextures.wall_bottom);
-                           
+
                             if (!hasTop(i, j) && !hasRight(i, j))
                                 mapItem.SetTexture(ResourceTextures.wall_top);
 
@@ -140,10 +140,10 @@ namespace LazySnake.Engine
                         else if (mapItems[i, j].Type == GameObject.GameObjectType.Player)
                         {
                             mapItem.Position = new System.Windows.Point(mapItem.Position.X, mapItem.Position.Y - 5);
-                            mapItem.SetTexture(playerSpriteSheet.GetSprite(1,1));
+                            mapItem.SetTexture(playerSpriteSheet.GetSprite(1, 1));
                             mapItem.Render(engine.GetLayerByIndex(2));
 
-                            GameAnimation a = new GameAnimation("Walk_Left", new GameAnimation.AnimateStep[]
+                            /*GameAnimation a = new GameAnimation("Walk_Left", new GameAnimation.AnimateStep[]
                              {
                                  new AnimateStep()
                                  {
@@ -165,35 +165,21 @@ namespace LazySnake.Engine
                                  }
                              }, mapItem);
 
-                            mapItem.Animate(a);
+                            mapItem.Animate(a);*/
 
-                           // mapItem.GoTo(new System.Windows.Point(mapItem.Position.X + 100, mapItem.Position.Y));
+                            // mapItem.GoTo(new System.Windows.Point(mapItem.Position.X + 100, mapItem.Position.Y));
                         }
                         else if (mapItems[i, j].Type == GameObject.GameObjectType.Target)
                         {
                             mapItem.SetTexture(ResourceTextures.Diamond_1);
                             mapItem.Render(engine.GetLayerByIndex(2));
-                            /*mapItem.Animate(new AnimateStep[2] {
-                                new AnimateStep()
-                                {
-                                    //Texture = ResourceTextures.Diamond_1,
-                                    PositionDiff = new System.Windows.Point(0, -50),
-                                    Time = 2000
-                                },
-                                new AnimateStep()
-                                {
-                                    //Texture = ResourceTextures.Diamond_2,
-                                    PositionDiff = new System.Windows.Point(0, +50),
-                                    Time = 500
-                                }
-                            });*/
                         }
                     }
                 }
             }
         }
 
-        
+
 
         public bool hasTop(int i, int j)
         {

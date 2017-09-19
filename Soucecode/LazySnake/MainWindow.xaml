@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LazySnake"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800">
+        Title="MainWindow" Height="794.735" Width="1285.964" Loaded="Window_Loaded">
     <StackPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Game">
@@ -13,8 +13,8 @@
                 <MenuItem Header="_Create Map" Click="MenuItem_Click"/>
             </MenuItem>
         </Menu>
-        <Border CornerRadius="0" BorderBrush="#FF034719" Background="LightGray" BorderThickness="1" Margin="20">
-            <Canvas x:Name="canvasGameMap" Height="300" Width="500" Background="#FFD1E2CA" Margin="0"/>
+        <Border CornerRadius="0" BorderBrush="#FF034719" Background="LightGray" BorderThickness="1" Margin="2,2,2,2" Height="735">
+            <Canvas x:Name="canvasGameMap" Background="#FFE6E6E6" Margin="0,0,0,0"/>
         </Border>
     </StackPanel>
 </Window>
