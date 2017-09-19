@@ -63,46 +63,6 @@ namespace LazySnake.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Apple {
-            get {
-                object obj = ResourceManager.GetObject("Apple", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Diamond {
-            get {
-                object obj = ResourceManager.GetObject("Diamond", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Diamond_1 {
-            get {
-                object obj = ResourceManager.GetObject("Diamond_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Diamond_2 {
-            get {
-                object obj = ResourceManager.GetObject("Diamond_2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Grass {
             get {
                 object obj = ResourceManager.GetObject("Grass", resourceCulture);
@@ -113,19 +73,9 @@ namespace LazySnake.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap player_1 {
+        internal static System.Drawing.Bitmap player_sheet {
             get {
-                object obj = ResourceManager.GetObject("player_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap player_2 {
-            get {
-                object obj = ResourceManager.GetObject("player_2", resourceCulture);
+                object obj = ResourceManager.GetObject("player_sheet", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

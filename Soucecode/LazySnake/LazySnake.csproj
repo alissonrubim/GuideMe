@@ -61,6 +61,7 @@
     <Compile Include="AI\Heuristic.cs" />
     <Compile Include="Engine\GameObject.cs" />
     <Compile Include="Engine\GameMap.cs" />
+    <Compile Include="Engine\GamePlayer.cs" />
     <Compile Include="Engine\GameSpriteSheet.cs" />
     <Compile Include="MapCreatorWindow.xaml.cs">
       <DependentUpon>MapCreatorWindow.xaml</DependentUpon>
@@ -70,15 +71,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceMaps.resx</DependentUpon>
     </Compile>
+    <Compile Include="AI\StarRoutine.cs" />
+    <Compile Include="AI\TrackQueue.cs" />
+    <Compile Include="AI\Track.cs" />
+    <Compile Include="AI\Vertex.cs" />
     <Compile Include="Resources\ResourceTextures.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceTextures.resx</DependentUpon>
     </Compile>
-    <Compile Include="AI\StarRoutine.cs" />
-    <Compile Include="AI\TrackQueue.cs" />
-    <Compile Include="AI\Track.cs" />
-    <Compile Include="AI\Vertex.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -195,6 +196,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Images\sprites_player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\player_sheet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

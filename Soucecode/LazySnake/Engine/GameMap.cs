@@ -94,7 +94,7 @@ namespace LazySnake.Engine
             brush.ViewportUnits = BrushMappingMode.Absolute;
             backgroundLayer.Background = brush;
 
-            GameSpriteSheet playerSpriteSheet = new GameSpriteSheet(ResourceTextures.sprites_player, new System.Drawing.Point(32, 32));
+            GameSpriteSheet playerSpriteSheet = new GameSpriteSheet(ResourceTextures.player_sheet, new System.Drawing.Point(32, 32));
 
             for (int i = 0; i < rowCount; i++)
             {
@@ -139,10 +139,21 @@ namespace LazySnake.Engine
                         }
                         else if (mapItems[i, j].Type == GameObject.GameObjectType.Player)
                         {
+                            GamePlayer player = new GamePlayer(mapItem);
+                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.Up, playerSpriteSheet.GetSprite(3, 1));
+                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.UpLeft, playerSpriteSheet.GetSprite(2, 7));
+                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.UpRight, playerSpriteSheet.GetSprite(3, 10));
+                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.Left, playerSpriteSheet.GetSprite(1, 1));
+                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.Right, playerSpriteSheet.GetSprite(2, 4));
+                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.Bottom, playerSpriteSheet.GetSprite(0, 1));
+                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.BottomLeft, playerSpriteSheet.GetSprite(1, 7));
+                            player.TextureMap.Add(GamePlayer.GamePlayerTurnSide.BottomRight, playerSpriteSheet.GetSprite(0, 7));
+                            player.TurnBottom();
                             mapItem.Position = new System.Windows.Point(mapItem.Position.X, mapItem.Position.Y - 5);
-                            mapItem.SetTexture(playerSpriteSheet.GetSprite(1, 1));
                             mapItem.Render(engine.GetLayerByIndex(2));
 
+
+                            player.Walk();
                             /*GameAnimation a = new GameAnimation("Walk_Left", new GameAnimation.AnimateStep[]
                              {
                                  new AnimateStep()
@@ -171,8 +182,8 @@ namespace LazySnake.Engine
                         }
                         else if (mapItems[i, j].Type == GameObject.GameObjectType.Target)
                         {
-                            mapItem.SetTexture(ResourceTextures.Diamond_1);
-                            mapItem.Render(engine.GetLayerByIndex(2));
+                           // mapItem.SetTexture(ResourceTextures.Diamond_1);
+                            //mapItem.Render(engine.GetLayerByIndex(2));
                         }
                     }
                 }
