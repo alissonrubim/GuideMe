@@ -238,52 +238,57 @@ namespace LazySnake.Engine
                 gameObject.Position = new System.Windows.Point(gameObject.Position.X, gameObject.Position.Y - 5);
                 gameObject.Render(this.GetLayerByIndex(1));
             }
+            else if (gameObject.Type == GameObject.GameObjectType.Target)
+            {
+                GameSpriteSheet foodSheet = new GameSpriteSheet(ResourceTextures.food_sheet, new System.Drawing.Point(32,32));
+                gameObject.SetTexture(foodSheet.GetSprite(4,7));
+                gameObject.Render(this.GetLayerByIndex(1));
+            }
             else if (gameObject.Type == GameObject.GameObjectType.Wall)
             {
                 gameObject.Texture = ResourceTextures.wall;
 
-                if (gameObject.Neighbors.Bottom == null)
+                if (!isColisionObject(gameObject.Neighbors.Bottom))
                     gameObject.SetTexture(ResourceTextures.wall_bottom);
 
-                if (gameObject.Neighbors.Top == null 
-                        && gameObject.Neighbors.Right == null)
+                if (!isColisionObject(gameObject.Neighbors.Top) && !isColisionObject(gameObject.Neighbors.Right))
                     gameObject.SetTexture(ResourceTextures.wall_top);
 
-                if (gameObject.Neighbors.Bottom != null && gameObject.Neighbors.Bottom.Type == GameObjectType.Wall 
-                        && gameObject.Neighbors.Right != null && gameObject.Neighbors.Right.Type == GameObjectType.Wall
-                        && gameObject.Neighbors.BottomRight == null)
+                if (isColisionObject(gameObject.Neighbors.Bottom) && isColisionObject(gameObject.Neighbors.Right) && !isColisionObject(gameObject.Neighbors.BottomRight))
                     gameObject.SetTexture(ResourceTextures.wall_3);
 
-                if (gameObject.Neighbors.Bottom == null && gameObject.Neighbors.Right == null && gameObject.Neighbors.Left == null)
+                if (!isColisionObject(gameObject.Neighbors.Bottom) && !isColisionObject(gameObject.Neighbors.Right) && !isColisionObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_bottom_right);
 
-                if (gameObject.Neighbors.Bottom == null && gameObject.Neighbors.Right == null 
-                        && gameObject.Neighbors.Top != null && gameObject.Neighbors.Top.Type == GameObjectType.Wall)
+                if (!isColisionObject(gameObject.Neighbors.Bottom) && !isColisionObject(gameObject.Neighbors.Right) && isColisionObject(gameObject.Neighbors.Top))
                     gameObject.SetTexture(ResourceTextures.wall_7);
 
-                if (gameObject.Neighbors.Bottom == null && gameObject.Neighbors.Right == null 
-                        && gameObject.Neighbors.Top != null && gameObject.Neighbors.Top.Type == GameObjectType.Wall
-                        && gameObject.Neighbors.Left != null && gameObject.Neighbors.Left.Type == GameObjectType.Wall)
+                if (!isColisionObject(gameObject.Neighbors.Bottom) && !isColisionObject(gameObject.Neighbors.Right)
+                        && isColisionObject(gameObject.Neighbors.Top)
+                        && isColisionObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_6);
 
-                if (gameObject.Neighbors.Bottom != null && gameObject.Neighbors.Bottom.Type == GameObjectType.Wall
-                        && gameObject.Neighbors.Top != null && gameObject.Neighbors.Top.Type == GameObjectType.Wall
-                        && gameObject.Neighbors.Right == null)
+                if (isColisionObject(gameObject.Neighbors.Bottom)
+                        && isColisionObject(gameObject.Neighbors.Top)
+                        && !isColisionObject(gameObject.Neighbors.Right))
                     gameObject.SetTexture(ResourceTextures.wall_side_right);
 
-                if (gameObject.Neighbors.Bottom == null && gameObject.Neighbors.Right == null && gameObject.Neighbors.Top == null 
-                        && gameObject.Neighbors.Left != null && gameObject.Neighbors.Left.Type == GameObjectType.Wall)
+                if (!isColisionObject(gameObject.Neighbors.Bottom) && !isColisionObject(gameObject.Neighbors.Right) && !isColisionObject(gameObject.Neighbors.Top)
+                        && isColisionObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_5);
 
-                if (gameObject.Neighbors.Bottom == null 
-                        && gameObject.Neighbors.Right != null && gameObject.Neighbors.Right.Type == GameObjectType.Wall
-                        && gameObject.Neighbors.Left == null)
+                if (!isColisionObject(gameObject.Neighbors.Bottom) 
+                        && isColisionObject(gameObject.Neighbors.Right)
+                        && !isColisionObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_4);
 
                 gameObject.Render(this.GetLayerByIndex(2));
             }
         }
 
- 
+        private bool isColisionObject(GameObject gameObject)
+        {
+            return gameObject != null && gameObject.MakeColision == true;
+        }
     }
 }

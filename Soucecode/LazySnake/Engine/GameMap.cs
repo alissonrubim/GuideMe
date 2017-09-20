@@ -55,7 +55,8 @@ namespace LazySnake.Engine
                     mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
                         Type = GameObject.GameObjectType.Wall,
-                        Size = new System.Windows.Size(blockSize, blockSize)
+                        Size = new System.Windows.Size(blockSize, blockSize),
+                        MakeColision = true
                     };
                 else if (itemNode.InnerText == "2")
                     mapItems[row, col] = new GameObject(new Coordinate(row, col))

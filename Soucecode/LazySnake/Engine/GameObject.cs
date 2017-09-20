@@ -46,9 +46,10 @@ namespace LazySnake.Engine
         {
             Wall = 0,
             Player = 1,
-            Target = 1
+            Target = 2
         }
 
+        public bool MakeColision { get; set; }
         public Neighbor Neighbors { get; set; }
         public string Identifier { get; set; }
         public GameObjectType Type { get; set; }

@@ -88,7 +88,7 @@ namespace LazySnake
             GameEngine engine = new GameEngine(this.canvasGameMap);
             engine.LoadMap(ResourceMaps.Map01);
             player = engine.GetPlayer(0);
-            player.TurnUp();
+            player.TurnBottom();
         }
     }
 }
