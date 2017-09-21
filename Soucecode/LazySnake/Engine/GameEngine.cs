@@ -342,7 +342,7 @@ namespace LazySnake.Engine
             if(gameObject.Type == GameObject.GameObjectType.Player)
             {
                 GetPlayer(0).SetGameObject(gameObject);
-                GetPlayer(0).TurnBottom();
+                GetPlayer(0).TurnDown();
                 gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X, gameObject.GetPosition().Y - 5));
                 gameObject.Render(this.GetLayerByIndex(1));
             }

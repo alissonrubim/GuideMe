@@ -54,16 +54,16 @@ namespace LazySnake
 
         private void MenuItemCommand_TurnBottomLeft(object sender, RoutedEventArgs e)
         {
-            player.TurnBottomLeft();
+            player.TurnDownLeft();
         }
 
         private void MenuItemCommand_TurnBottom(object sender, RoutedEventArgs e)
         {
-            player.TurnBottom();
+            player.TurnDown();
         }
         private void MenuItemCommand_TurnBottomRight(object sender, RoutedEventArgs e)
         {
-            player.TurnBottomRight();
+            player.TurnDownRight();
         }
 
         private void MenuItemCommand_TurnLeft(object sender, RoutedEventArgs e)
@@ -88,7 +88,51 @@ namespace LazySnake
             GameEngine engine = new GameEngine(this.canvasGameMap);
             engine.LoadMap(ResourceMaps.Map01);
             player = engine.GetPlayer(0);
-            player.TurnBottom();
+            player.TurnDown();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Left)
+            {
+                player.TurnLeft();
+                player.Walk();
+            }
+            else if (e.Key == Key.Right)
+            {
+                player.TurnRight();
+                player.Walk();
+            }
+            else if (e.Key == Key.Up)
+            {
+                player.TurnUp();
+                player.Walk();
+            }
+            else if (e.Key == Key.Down)
+            {
+                player.TurnDown();
+                player.Walk();
+            }
+            else if ((e.Key == Key.Right) && (e.Key == Key.Up))
+            {
+                player.TurnUpRight();
+                player.Walk();
+            }
+            else if ((e.Key == Key.Right) && (e.Key == Key.Down))
+            {
+                player.TurnDownRight();
+                player.Walk();
+            }
+            else if ((e.Key == Key.Left) && (e.Key == Key.Up))
+            {
+                player.TurnUpLeft();
+                player.Walk();
+            }
+            else if ((e.Key == Key.Left) && (e.Key == Key.Down))
+            {
+                player.TurnDownLeft();
+                player.Walk();
+            }
         }
     }
 }

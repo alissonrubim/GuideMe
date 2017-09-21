@@ -119,19 +119,19 @@ namespace LazySnake.Engine
             gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
-        public void TurnBottom()
+        public void TurnDown()
         {
             currentTurnSide = GamePlayerDirection.Bottom;
             gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
-        public void TurnBottomLeft()
+        public void TurnDownLeft()
         {
             currentTurnSide = GamePlayerDirection.BottomLeft;
             gameObject.SetTexture(TextureDictionary[currentTurnSide]);
         }
 
-        public void TurnBottomRight()
+        public void TurnDownRight()
         {
             currentTurnSide = GamePlayerDirection.BottomRight;
             gameObject.SetTexture(TextureDictionary[currentTurnSide]);

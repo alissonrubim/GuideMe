@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LazySnake"
         mc:Ignorable="d"
-        Title="MainWindow" Height="794.735" Width="1285.964" Loaded="Window_Loaded">
+        Title="MainWindow" Height="794.735" Width="1285.964" Loaded="Window_Loaded" KeyDown="Window_KeyDown">
     <StackPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Game">
