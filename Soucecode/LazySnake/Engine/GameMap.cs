@@ -91,14 +91,6 @@ namespace LazySnake.Engine
             int rowCount = mapItems.GetLength(0);
             int colCount = mapItems.GetLength(1);
 
-            Canvas backgroundLayer = engine.GetLayerByIndex(0);
-            ImageBrush brush = new ImageBrush();
-            brush.ImageSource = GameObject.ImageSourceForBitmap(ResourceTextures.Grass);
-            brush.TileMode = TileMode.Tile;
-            brush.Viewport = new Rect(0, 0, engine.BlockSize, engine.BlockSize);
-            brush.ViewportUnits = BrushMappingMode.Absolute;
-            backgroundLayer.Background = brush;
-
             for (int i = 0; i < rowCount; i++)
             {
                 for (int j = 0; j < colCount; j++)
