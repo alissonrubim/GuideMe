@@ -14,14 +14,18 @@ namespace LazySnake.Engine
     class GameEngine
     {
         private Canvas[] layers = new Canvas[5];
+        private Canvas topCanvas = null;
+        private Canvas middleCanvas = null;
+        private Canvas bottomCanvas = null;
         private Canvas parentCanvas = null;
         private GameMap currentMap = null;
         private GamePlayer[] players = new GamePlayer[2];
+        public int BlockSize = 25;
 
         public GameEngine(Canvas parentCanvas)
         {
             this.parentCanvas = parentCanvas;
-            setupLayers();
+            setupScreen();
             setPlayers();
         }
 
@@ -57,16 +61,56 @@ namespace LazySnake.Engine
             currentMap.MoveTo(gameObject, cordinates, animation);
         }
 
+        private void setupScreen()
+        {
+            int topCanvasHeight = 50;
+            int bottomCanvasHeight = 30;
+
+            topCanvas = new Canvas();
+            topCanvas.Visibility = Visibility.Visible;
+            topCanvas.Background = System.Windows.Media.Brushes.LightGray;
+            topCanvas.Width = parentCanvas.ActualWidth;
+            topCanvas.Height = topCanvasHeight;
+            parentCanvas.Children.Add(topCanvas);
+            Canvas.SetTop(topCanvas, 0);
+
+            System.Windows.Media.FontFamily f = new System.Windows.Media.FontFamily("Comic Sans MS");
+
+            Label labelTime = new Label();
+            labelTime.Visibility = Visibility.Visible;
+            labelTime.Content = "00:00:00";
+            labelTime.FontFamily = f;
+            topCanvas.Children.Add(labelTime);
+
+            middleCanvas = new Canvas();
+            middleCanvas.Visibility = Visibility.Visible;
+            middleCanvas.Background = System.Windows.Media.Brushes.Transparent;
+            middleCanvas.Width = parentCanvas.ActualWidth;
+            middleCanvas.Height = parentCanvas.ActualHeight - (topCanvasHeight + bottomCanvasHeight);
+            parentCanvas.Children.Add(middleCanvas);
+            Canvas.SetTop(middleCanvas, topCanvasHeight);
+
+            bottomCanvas = new Canvas();
+            bottomCanvas.Visibility = Visibility.Visible;
+            bottomCanvas.Background = System.Windows.Media.Brushes.LightGray;
+            bottomCanvas.Width = parentCanvas.ActualWidth;
+            bottomCanvas.Height = bottomCanvasHeight;
+            parentCanvas.Children.Add(bottomCanvas);
+            Canvas.SetTop(bottomCanvas, topCanvasHeight + middleCanvas.Height);
+
+            setupLayers();
+        }
+
         private void setupLayers()
         {
-            Canvas parent = this.parentCanvas;
+            Canvas parent = this.middleCanvas;
             for (int i = 0; i < layers.Length; i++)
             {
                 Canvas layer = new Canvas();
                 layer.Visibility = Visibility.Visible;
                 layer.Background = System.Windows.Media.Brushes.Transparent;
-                layer.Width = parent.ActualWidth;
-                layer.Height = parent.ActualHeight;
+                layer.Width = parent.Width;
+                layer.Height = parent.Height;
                 layer.Name = "Layer" + (i).ToString();
                 layers[i] = layer;
                 parent.Children.Add(layer);
@@ -87,146 +131,87 @@ namespace LazySnake.Engine
             players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.BottomLeft, playerSpriteSheet.GetSprite(1, 7));
             players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.BottomRight, playerSpriteSheet.GetSprite(0, 7));
 
-            GameAnimation walkUp = new GameAnimation("Player_WalkUp", new GameAnimation.AnimateStep[]
-            {
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, -5),
-                    Texture = playerSpriteSheet.GetSprite(3, 0),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, -5),
-                    Texture = playerSpriteSheet.GetSprite(3, 1),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, -5),
-                    Texture = playerSpriteSheet.GetSprite(3, 2),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, -5),
-                    Texture = playerSpriteSheet.GetSprite(3, 3),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, -5),
-                    Texture = playerSpriteSheet.GetSprite(3, 4),
-                    Time = 200
-                }
-            }, runForever: false);
+            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Up, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(3, 0),
+                playerSpriteSheet.GetSprite(3, 1),
+                playerSpriteSheet.GetSprite(3, 2),
+                playerSpriteSheet.GetSprite(3, 3),
+                playerSpriteSheet.GetSprite(3, 4)
+            }, new System.Windows.Point(0, BlockSize * -1)));
 
-            GameAnimation walkLeft = new GameAnimation("Player_WalkLeft", new GameAnimation.AnimateStep[]
-            {
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(-5, 0),
-                    Texture = playerSpriteSheet.GetSprite(1, 0),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(-5, 0),
-                    Texture = playerSpriteSheet.GetSprite(1, 1),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(-5, 0),
-                    Texture = playerSpriteSheet.GetSprite(1, 2),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(-5, 0),
-                    Texture = playerSpriteSheet.GetSprite(1, 3),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(-5, 0),
-                    Texture =  playerSpriteSheet.GetSprite(1, 4),
-                    Time = 200
-                }
-            }, runForever: false);
+            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.UpLeft, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(3, 6),
+                playerSpriteSheet.GetSprite(3, 7),
+                playerSpriteSheet.GetSprite(3, 8),
+                playerSpriteSheet.GetSprite(3, 9),
+                playerSpriteSheet.GetSprite(3, 10)
+            }, new System.Windows.Point(BlockSize * -1, BlockSize * -1)));
 
-            GameAnimation walkRight = new GameAnimation("Player_WalkRight", new GameAnimation.AnimateStep[]
-            {
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(+5, 0),
-                    Texture = playerSpriteSheet.GetSprite(2, 0),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(+5, 0),
-                    Texture = playerSpriteSheet.GetSprite(2, 1),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(+5, 0),
-                    Texture = playerSpriteSheet.GetSprite(2, 2),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(+5, 0),
-                    Texture = playerSpriteSheet.GetSprite(2, 3),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(+5, 0),
-                    Texture =  playerSpriteSheet.GetSprite(2, 4),
-                    Time = 200
-                }
-            }, runForever: false);
+            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.UpRight, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(2, 6),
+                playerSpriteSheet.GetSprite(2, 7),
+                playerSpriteSheet.GetSprite(2, 8),
+                playerSpriteSheet.GetSprite(2, 9),
+                playerSpriteSheet.GetSprite(2, 10)
+            }, new System.Windows.Point(BlockSize, BlockSize * -1)));
 
-            GameAnimation walkBottom = new GameAnimation("Player_WalkBottom", new GameAnimation.AnimateStep[]
-            {
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, +5),
-                    Texture = playerSpriteSheet.GetSprite(0, 0),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, +5),
-                    Texture = playerSpriteSheet.GetSprite(0, 1),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, +5),
-                    Texture = playerSpriteSheet.GetSprite(0, 2),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, +5),
-                    Texture = playerSpriteSheet.GetSprite(0, 3),
-                    Time = 200
-                },
-                new GameAnimation.AnimateStep()
-                {
-                    PositionDiff = new System.Windows.Point(0, +5),
-                    Texture =  playerSpriteSheet.GetSprite(0, 4),
-                    Time = 200
-                }
-            }, runForever: false);
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Up, walkUp);
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Left, walkLeft);
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Right, walkRight);
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Bottom, walkBottom);
+            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Left, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(1, 0),
+                playerSpriteSheet.GetSprite(1, 1),
+                playerSpriteSheet.GetSprite(1, 2),
+                playerSpriteSheet.GetSprite(1, 3),
+                playerSpriteSheet.GetSprite(1, 4)
+            }, new System.Windows.Point(BlockSize * -1, 0)));
+
+            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Right, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(2, 0),
+                playerSpriteSheet.GetSprite(2, 1),
+                playerSpriteSheet.GetSprite(2, 2),
+                playerSpriteSheet.GetSprite(2, 3),
+                playerSpriteSheet.GetSprite(2, 4)
+            }, new System.Windows.Point(BlockSize, 0)));
+
+            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Bottom, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(0, 0),
+                playerSpriteSheet.GetSprite(0, 1),
+                playerSpriteSheet.GetSprite(0, 2),
+                playerSpriteSheet.GetSprite(0, 3),
+                playerSpriteSheet.GetSprite(0, 4)
+            }, new System.Windows.Point(0, BlockSize)));
+
+            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.BottomLeft, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(1, 6),
+                playerSpriteSheet.GetSprite(1, 7),
+                playerSpriteSheet.GetSprite(1, 8),
+                playerSpriteSheet.GetSprite(1, 9),
+                playerSpriteSheet.GetSprite(1, 10)
+            }, new System.Windows.Point(BlockSize * -1, BlockSize)));
+
+            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.BottomRight, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(0, 6),
+                playerSpriteSheet.GetSprite(0, 7),
+                playerSpriteSheet.GetSprite(0, 8),
+                playerSpriteSheet.GetSprite(0, 9),
+                playerSpriteSheet.GetSprite(0, 10)
+            }, new System.Windows.Point(BlockSize, BlockSize)));
+        }
+
+        private GameAnimation createWalkAnimation(Bitmap[] sprites, System.Windows.Point totalPositionDiff)
+        {
+            GameAnimation.AnimateStep[] steps = new GameAnimation.AnimateStep[sprites.Length];
+            
+            for(int i=0; i< sprites.Length; i++)
+            {
+                steps[i] = new GameAnimation.AnimateStep()
+                {
+                    PositionDiff = new System.Windows.Point(totalPositionDiff.X / sprites.Length, totalPositionDiff.Y / sprites.Length),
+                    Texture = sprites[i],
+                    Time = 500 / sprites.Length
+                };
+            }
+
+            return new GameAnimation(null, steps, runForever: false);
         }
 
         private void map_onRenderGameObject(GameObject gameObject)
@@ -248,45 +233,45 @@ namespace LazySnake.Engine
             {
                 gameObject.Texture = ResourceTextures.wall;
 
-                if (!isColisionObject(gameObject.Neighbors.Bottom))
+                if (!IsColisionObject(gameObject.Neighbors.Bottom))
                     gameObject.SetTexture(ResourceTextures.wall_bottom);
 
-                if (!isColisionObject(gameObject.Neighbors.Top) && !isColisionObject(gameObject.Neighbors.Right))
+                if (!IsColisionObject(gameObject.Neighbors.Top) && !IsColisionObject(gameObject.Neighbors.Right))
                     gameObject.SetTexture(ResourceTextures.wall_top);
 
-                if (isColisionObject(gameObject.Neighbors.Bottom) && isColisionObject(gameObject.Neighbors.Right) && !isColisionObject(gameObject.Neighbors.BottomRight))
+                if (IsColisionObject(gameObject.Neighbors.Bottom) && IsColisionObject(gameObject.Neighbors.Right) && !IsColisionObject(gameObject.Neighbors.BottomRight))
                     gameObject.SetTexture(ResourceTextures.wall_3);
 
-                if (!isColisionObject(gameObject.Neighbors.Bottom) && !isColisionObject(gameObject.Neighbors.Right) && !isColisionObject(gameObject.Neighbors.Left))
+                if (!IsColisionObject(gameObject.Neighbors.Bottom) && !IsColisionObject(gameObject.Neighbors.Right) && !IsColisionObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_bottom_right);
 
-                if (!isColisionObject(gameObject.Neighbors.Bottom) && !isColisionObject(gameObject.Neighbors.Right) && isColisionObject(gameObject.Neighbors.Top))
+                if (!IsColisionObject(gameObject.Neighbors.Bottom) && !IsColisionObject(gameObject.Neighbors.Right) && IsColisionObject(gameObject.Neighbors.Top))
                     gameObject.SetTexture(ResourceTextures.wall_7);
 
-                if (!isColisionObject(gameObject.Neighbors.Bottom) && !isColisionObject(gameObject.Neighbors.Right)
-                        && isColisionObject(gameObject.Neighbors.Top)
-                        && isColisionObject(gameObject.Neighbors.Left))
+                if (!IsColisionObject(gameObject.Neighbors.Bottom) && !IsColisionObject(gameObject.Neighbors.Right)
+                        && IsColisionObject(gameObject.Neighbors.Top)
+                        && IsColisionObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_6);
 
-                if (isColisionObject(gameObject.Neighbors.Bottom)
-                        && isColisionObject(gameObject.Neighbors.Top)
-                        && !isColisionObject(gameObject.Neighbors.Right))
+                if (IsColisionObject(gameObject.Neighbors.Bottom)
+                        && IsColisionObject(gameObject.Neighbors.Top)
+                        && !IsColisionObject(gameObject.Neighbors.Right))
                     gameObject.SetTexture(ResourceTextures.wall_side_right);
 
-                if (!isColisionObject(gameObject.Neighbors.Bottom) && !isColisionObject(gameObject.Neighbors.Right) && !isColisionObject(gameObject.Neighbors.Top)
-                        && isColisionObject(gameObject.Neighbors.Left))
+                if (!IsColisionObject(gameObject.Neighbors.Bottom) && !IsColisionObject(gameObject.Neighbors.Right) && !IsColisionObject(gameObject.Neighbors.Top)
+                        && IsColisionObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_5);
 
-                if (!isColisionObject(gameObject.Neighbors.Bottom) 
-                        && isColisionObject(gameObject.Neighbors.Right)
-                        && !isColisionObject(gameObject.Neighbors.Left))
+                if (!IsColisionObject(gameObject.Neighbors.Bottom) 
+                        && IsColisionObject(gameObject.Neighbors.Right)
+                        && !IsColisionObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_4);
 
                 gameObject.Render(this.GetLayerByIndex(2));
             }
         }
 
-        private bool isColisionObject(GameObject gameObject)
+        public bool IsColisionObject(GameObject gameObject)
         {
             return gameObject != null && gameObject.MakeColision == true;
         }

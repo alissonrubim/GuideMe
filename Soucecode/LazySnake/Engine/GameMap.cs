@@ -28,7 +28,7 @@ namespace LazySnake.Engine
 
         private GameObject[,] mapItems;
         private GameEngine engine;
-        private const int blockSize = 25;
+        
 
         public GameMap(GameEngine engine)
         {
@@ -55,20 +55,20 @@ namespace LazySnake.Engine
                     mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
                         Type = GameObject.GameObjectType.Wall,
-                        Size = new System.Windows.Size(blockSize, blockSize),
+                        Size = new System.Windows.Size(engine.BlockSize, engine.BlockSize),
                         MakeColision = true
                     };
                 else if (itemNode.InnerText == "2")
                     mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
                         Type = GameObject.GameObjectType.Player,
-                        Size = new System.Windows.Size(blockSize, blockSize)
+                        Size = new System.Windows.Size(engine.BlockSize, engine.BlockSize)
                     };
                 else if (itemNode.InnerText == "3")
                     mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
                         Type = GameObject.GameObjectType.Target,
-                        Size = new System.Windows.Size(blockSize, blockSize)
+                        Size = new System.Windows.Size(engine.BlockSize, engine.BlockSize)
                     };
             }
 
@@ -95,7 +95,7 @@ namespace LazySnake.Engine
             ImageBrush brush = new ImageBrush();
             brush.ImageSource = GameObject.ImageSourceForBitmap(ResourceTextures.Grass);
             brush.TileMode = TileMode.Tile;
-            brush.Viewport = new Rect(0, 0, blockSize, blockSize);
+            brush.Viewport = new Rect(0, 0, engine.BlockSize, engine.BlockSize);
             brush.ViewportUnits = BrushMappingMode.Absolute;
             backgroundLayer.Background = brush;
 
@@ -132,7 +132,7 @@ namespace LazySnake.Engine
             gameObject.Coordinates = coordinate;
             processNeighbors(gameObject);
             if(moveObject)
-                gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X + (walkDistanceX * blockSize) , gameObject.GetPosition().Y + (walkDistanceY * blockSize)));
+                gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X + (walkDistanceX * engine.BlockSize) , gameObject.GetPosition().Y + (walkDistanceY * engine.BlockSize)));
         }
 
         public void MoveTo(GameObject gameObject, Coordinate coordinate, GameAnimation animation)
