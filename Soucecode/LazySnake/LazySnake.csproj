@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Engine\GameSprite.cs" />
     <Compile Include="Interface\CodeCompiler.cs" />
     <Compile Include="Engine\GameAnimation.cs" />
     <Compile Include="Engine\GameEngine.cs" />
@@ -203,6 +204,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Images\food_sheet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\life_10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\life_11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\life_20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\life_21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\life_30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Images\life_31.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

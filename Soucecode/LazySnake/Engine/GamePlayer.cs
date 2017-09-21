@@ -26,6 +26,7 @@ namespace LazySnake.Engine
         private GamePlayerDirection currentTurnSide;
         private GameObject gameObject;
         private GameEngine gameEngine;
+        private int energy = 0;
 
         public Dictionary<GamePlayerDirection, Bitmap> TextureDictionary = new Dictionary<GamePlayerDirection, Bitmap>();
         public Dictionary<GamePlayerDirection, GameAnimation> AnimationDictionary = new Dictionary<GamePlayerDirection, GameAnimation>();
@@ -38,6 +39,16 @@ namespace LazySnake.Engine
         public void SetGameObject(GameObject gameObject)
         {
             this.gameObject = gameObject;
+        }
+
+        public int GetEnergy()
+        {
+            return this.energy;
+        }
+
+        public void SetEnergy(int value)
+        {
+            this.energy = value;
         }
 
         public void Walk()

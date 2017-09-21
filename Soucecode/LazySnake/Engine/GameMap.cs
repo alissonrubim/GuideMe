@@ -55,21 +55,21 @@ namespace LazySnake.Engine
                     mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
                         Type = GameObject.GameObjectType.Wall,
-                        Size = new System.Windows.Size(engine.BlockSize, engine.BlockSize),
                         MakeColision = true
                     };
                 else if (itemNode.InnerText == "2")
                     mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
-                        Type = GameObject.GameObjectType.Player,
-                        Size = new System.Windows.Size(engine.BlockSize, engine.BlockSize)
+                        Type = GameObject.GameObjectType.Player
                     };
                 else if (itemNode.InnerText == "3")
                     mapItems[row, col] = new GameObject(new Coordinate(row, col))
                     {
-                        Type = GameObject.GameObjectType.Target,
-                        Size = new System.Windows.Size(engine.BlockSize, engine.BlockSize)
+                        Type = GameObject.GameObjectType.Target
                     };
+
+                if (mapItems[row, col] != null)
+                    mapItems[row, col].SetSize(new System.Windows.Size(engine.BlockSize, engine.BlockSize));
             }
 
             LoadMap(mapItems);
@@ -106,7 +106,7 @@ namespace LazySnake.Engine
                     if (mapItems[i, j] != null)
                     {
                         GameObject gameObject = mapItems[i, j];
-                        gameObject.Position = new System.Windows.Point(j * gameObject.Size.Height, i * gameObject.Size.Width);
+                        gameObject.SetPosition(new System.Windows.Point(j * gameObject.GetSize().Height, i * gameObject.GetSize().Width));
 
                         processNeighbors(gameObject);
 

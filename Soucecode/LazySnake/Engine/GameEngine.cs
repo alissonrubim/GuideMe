@@ -21,6 +21,7 @@ namespace LazySnake.Engine
         private GameMap currentMap = null;
         private GamePlayer[] players = new GamePlayer[2];
         public int BlockSize = 25;
+        public int MaximumEnergy = 15;
 
         public GameEngine(Canvas parentCanvas)
         {
@@ -61,9 +62,16 @@ namespace LazySnake.Engine
             currentMap.MoveTo(gameObject, cordinates, animation);
         }
 
+        private void decreseEnergy()
+        {
+            int playerEnergy = players[0].GetEnergy();
+            players[0].SetEnergy(playerEnergy - 1);
+
+        }
+
         private void setupScreen()
         {
-            int topCanvasHeight = 50;
+            int topCanvasHeight = 30;
             int bottomCanvasHeight = 30;
 
             topCanvas = new Canvas();
@@ -74,13 +82,15 @@ namespace LazySnake.Engine
             parentCanvas.Children.Add(topCanvas);
             Canvas.SetTop(topCanvas, 0);
 
-            System.Windows.Media.FontFamily f = new System.Windows.Media.FontFamily("Comic Sans MS");
+
+
+            /*System.Windows.Media.FontFamily f = new System.Windows.Media.FontFamily("Comic Sans MS");
 
             Label labelTime = new Label();
             labelTime.Visibility = Visibility.Visible;
             labelTime.Content = "00:00:00";
             labelTime.FontFamily = f;
-            topCanvas.Children.Add(labelTime);
+            topCanvas.Children.Add(labelTime);*/
 
             middleCanvas = new Canvas();
             middleCanvas.Visibility = Visibility.Visible;
@@ -98,7 +108,54 @@ namespace LazySnake.Engine
             parentCanvas.Children.Add(bottomCanvas);
             Canvas.SetTop(bottomCanvas, topCanvasHeight + middleCanvas.Height);
 
+            setupHUD();
             setupLayers();
+        }
+
+        private void setupHUD()
+        {
+            Canvas energyCanvas = new Canvas();
+            energyCanvas.Visibility = Visibility.Visible;
+            energyCanvas.Background = System.Windows.Media.Brushes.Transparent;
+            energyCanvas.Width = parentCanvas.ActualWidth;
+            energyCanvas.Height = 20;
+            topCanvas.Children.Add(energyCanvas);
+
+            int currentEnergy = 5;
+            
+
+            GameSprite firstEnergySprite = new GameSprite();
+            if(currentEnergy >= 1)
+                firstEnergySprite.SetTexture(ResourceTextures.life_11);
+            else
+                firstEnergySprite.SetTexture(ResourceTextures.life_10);
+            firstEnergySprite.SetPosition(new System.Windows.Point(10, 5));
+            firstEnergySprite.SetSize(new System.Windows.Size(36, 20));
+            firstEnergySprite.Render(energyCanvas);
+
+            double positionX = firstEnergySprite.GetPosition().X + firstEnergySprite.GetSize().Width;
+            int i = 0;
+            for (i=0; i < MaximumEnergy - 2; i++)
+            {
+                GameSprite n = new GameSprite();
+
+                if(i + 1 < currentEnergy)
+                    n.SetTexture(ResourceTextures.life_21);
+                else
+                    n.SetTexture(ResourceTextures.life_20);
+                n.SetPosition(new System.Windows.Point(positionX + (i*18), 5));
+                n.SetSize(new System.Windows.Size(18, 20));
+                n.Render(energyCanvas);
+            }
+
+            GameSprite lastEnergySprite = new GameSprite();
+            if (currentEnergy >= MaximumEnergy)
+                lastEnergySprite.SetTexture(ResourceTextures.life_31);
+            else
+                lastEnergySprite.SetTexture(ResourceTextures.life_30);
+            lastEnergySprite.SetPosition(new System.Windows.Point(positionX + ((i-2) * 18) + 36, 5));
+            lastEnergySprite.SetSize(new System.Windows.Size(25, 20));
+            lastEnergySprite.Render(energyCanvas);
         }
 
         private void setupLayers()
@@ -220,7 +277,7 @@ namespace LazySnake.Engine
             {
                 GetPlayer(0).SetGameObject(gameObject);
                 GetPlayer(0).TurnBottom();
-                gameObject.Position = new System.Windows.Point(gameObject.Position.X, gameObject.Position.Y - 5);
+                gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X, gameObject.GetPosition().Y - 5));
                 gameObject.Render(this.GetLayerByIndex(1));
             }
             else if (gameObject.Type == GameObject.GameObjectType.Target)
@@ -231,7 +288,7 @@ namespace LazySnake.Engine
             }
             else if (gameObject.Type == GameObject.GameObjectType.Wall)
             {
-                gameObject.Texture = ResourceTextures.wall;
+                gameObject.SetTexture(ResourceTextures.wall);
 
                 if (!IsColisionObject(gameObject.Neighbors.Bottom))
                     gameObject.SetTexture(ResourceTextures.wall_bottom);

@@ -26,7 +26,7 @@ namespace LazySnake.Engine
 
         public AnimateStep[] Steps;
 
-        public GameObject GameObject;
+        public GameSprite GameSprite;
 
         public bool RunForever;
 
@@ -36,17 +36,17 @@ namespace LazySnake.Engine
             this.Steps = steps;
         }
 
-        public GameAnimation(string name, AnimateStep[] steps, GameObject gameObject = null, bool runForever = true)
+        public GameAnimation(string name, AnimateStep[] steps, GameSprite gameSprite = null, bool runForever = true)
         {
             this.Name = name;
             this.Steps = steps;
-            this.GameObject = gameObject;
+            this.GameSprite = gameSprite;
             this.RunForever = runForever;
         }
 
-        public void SetGameObject(GameObject gameObject)
+        public void SetGameSprite(GameSprite gameSprite)
         {
-            this.GameObject = gameObject;
+            this.GameSprite = gameSprite;
         }
 
         public void Run()
@@ -70,9 +70,9 @@ namespace LazySnake.Engine
                 Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new ThreadStart(delegate
                 {
                     if (Steps[index].Texture != null)
-                        GameObject.SetTexture(Steps[index].Texture);
+                        GameSprite.SetTexture(Steps[index].Texture);
                     if (Steps[index].PositionDiff != null)
-                        GameObject.SetPosition(new System.Windows.Point(GameObject.GetPosition().X + Steps[index].PositionDiff.X, GameObject.GetPosition().Y + Steps[index].PositionDiff.Y));
+                        GameSprite.SetPosition(new System.Windows.Point(GameSprite.GetPosition().X + Steps[index].PositionDiff.X, GameSprite.GetPosition().Y + Steps[index].PositionDiff.Y));
                 }));
 
                 timer.Interval = Steps[index].Time;
