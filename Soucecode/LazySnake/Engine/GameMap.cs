@@ -75,6 +75,10 @@ namespace LazySnake.Engine
             renderMap();
         }
 
+        public System.Windows.Size GetSize()
+        {
+            return new System.Windows.Size(mapItems.GetLength(0), mapItems.GetLength(1));
+        }
         private void renderMap()
         {
             int rowCount = mapItems.GetLength(0);

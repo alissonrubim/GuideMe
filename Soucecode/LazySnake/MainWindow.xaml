@@ -26,6 +26,9 @@
                 <Separator />
                 <MenuItem Header="_Walk" Click="MenuItemCommand_Walk"/>
             </MenuItem>
+            <MenuItem Header="_AI">
+                <MenuItem Header="_Execute" Click="MenuItemCommand_AIExecute"/>
+            </MenuItem>
         </Menu>
         <Border CornerRadius="0" BorderBrush="#FF034719" Background="LightGray" BorderThickness="1" Margin="2,2,2,2" Height="379">
             <Canvas x:Name="canvasGameMap" Background="#FFE6E6E6" Margin="0,0,0,0"/>

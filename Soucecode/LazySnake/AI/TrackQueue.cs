@@ -54,5 +54,20 @@ namespace LazySnake
         {
             queue.Remove(obj);
         }
+
+        public Track Get(Vertex v)
+        {
+            LinkedListNode<Track> no = queue.First;
+
+            while (no != null)
+            {
+                if (no.Value.CurrentVertex.Equals(v))
+                    return no.Value;
+
+                no = no.Next;
+            }
+
+            return null;
+        }
     }
 }

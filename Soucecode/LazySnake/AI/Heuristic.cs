@@ -10,7 +10,7 @@ namespace LazySnake
     {
         public void CalcuatesCost(Track currentTrack, Vertex targetVertex, double value)
         {
-            if (currentTrack.CurrentVertex == null)
+            if (currentTrack.Preview == null)
                 currentTrack.CostG = value;
             else
                 currentTrack.CostG = currentTrack.Preview.CostG + value;

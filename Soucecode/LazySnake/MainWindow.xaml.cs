@@ -82,13 +82,50 @@ namespace LazySnake
         }
 
         private GamePlayer player;
+        private GameEngine engine;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            GameEngine engine = new GameEngine(this.canvasGameMap);
+            engine = new GameEngine(this.canvasGameMap);
             engine.LoadMap(ResourceMaps.Map01);
             player = engine.GetPlayer(0);
             player.TurnDown();
+        }
+
+        private void ProcessAutoGame()
+        {
+            StarRoutine algoritmo = new StarRoutine();
+
+            Vertex origem = null;
+            Vertex meta = null;
+            for (int i = 0; i < engine.GetMap().GetSize().Width; i++)
+                for (int j = 0; j < engine.GetMap().GetSize().Height; j++) {
+                    GameObject a = engine.GetMap().GetGameObjectAt(i, j);
+                    if (a != null)
+                    {
+                        if(a.Type == GameObject.GameObjectType.Player)
+                        {
+                            origem = new Vertex(i, j);
+
+                        }else if(a.Type == GameObject.GameObjectType.Target)
+                        {
+                            meta = new Vertex(i, j);
+
+                        }
+
+                    }
+                }
+            List<Vertex> caminho;
+            if (algoritmo.Start(engine.GetMap(), origem, meta, new Heuristic(), out caminho))
+                ///mostrarCaminho(caminho);
+                MessageBox.Show("caminho encontrado!");
+            else
+                MessageBox.Show("caminho não encontrado!");
+        }
+
+        private void MenuItemCommand_AIExecute(object sender, RoutedEventArgs e)
+        {
+            ProcessAutoGame();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
