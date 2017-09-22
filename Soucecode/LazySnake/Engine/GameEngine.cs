@@ -63,7 +63,7 @@ namespace LazySnake.Engine
             currentMap.MoveTo(gameObject, cordinates, animation);
 
 
-            if (oldGameObject != null && oldGameObject.Type == GameObject.GameObjectType.Batery)
+            /*if (oldGameObject != null && oldGameObject.Type == GameObject.GameObjectType.Batery)
             {
                 MessageBox.Show("Bateria");
             }
@@ -74,7 +74,7 @@ namespace LazySnake.Engine
             else
             {
                 decreseEnergy();
-            }
+            }*/
         }
 
         private void decreseEnergy()
@@ -373,29 +373,57 @@ namespace LazySnake.Engine
         {
             GameObject gameObject = null;
             if (value == "1")
+            {
                 gameObject = new GameObject(new Coordinate(row, col))
                 {
                     Type = GameObject.GameObjectType.Wall,
                     CanColideWithMe = true
                 };
+                gameObject.AddColisionDetector(GameObjectType.Player, playerColideWithWall);
+            }
             else if (value == "2")
                 gameObject = new GameObject(new Coordinate(row, col))
                 {
-                    Type = GameObject.GameObjectType.Player
+                    Type = GameObject.GameObjectType.Player,
+                    CanColideWithMe = true
                 };
             else if (value == "3")
+            {
                 gameObject = new GameObject(new Coordinate(row, col))
                 {
                     Type = GameObject.GameObjectType.Target,
                     CanColideWithMe = true
                 };
+
+                gameObject.AddColisionDetector(GameObjectType.Player, playerColideWithTarget);
+            }
             else if (value == "4")
+            {
                 gameObject = new GameObject(new Coordinate(row, col))
                 {
                     Type = GameObject.GameObjectType.Batery,
                     CanColideWithMe = true
                 };
+                gameObject.AddColisionDetector(GameObjectType.Player, playerColideWithBattery);
+            }
             return gameObject;
+        }
+
+        private bool playerColideWithTarget(GameObject targetObject, GameObject playerObject)
+        {
+            MessageBox.Show("GANHOU");
+            return true;
+        }
+
+        private bool playerColideWithBattery(GameObject bateryObject, GameObject playerObject)
+        {
+            bateryObject.SetTexture(null);
+            return true;
+        }
+
+        private bool playerColideWithWall(GameObject wallObject, GameObject playerObject)
+        {
+            return false;
         }
 
         public bool IsWallGameObject(GameObject gameObject)

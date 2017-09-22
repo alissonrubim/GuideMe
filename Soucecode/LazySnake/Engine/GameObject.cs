@@ -61,6 +61,15 @@ namespace LazySnake.Engine
         public GameObject(Coordinate mapCoordinates):base()
         {
             this.Coordinates = mapCoordinates;
+            this.ColisionWithMeHandlers = new Dictionary<GameObjectType, GameObjectColisionHandle>();
+        }
+
+        public void AddColisionDetector(GameObjectType type, GameObjectColisionHandle handle)
+        {
+            if(ColisionWithMeHandlers.ContainsKey(type))
+                ColisionWithMeHandlers.Add(type, handle);
+            else
+             ColisionWithMeHandlers[type] = handle;
         }
     }
 }

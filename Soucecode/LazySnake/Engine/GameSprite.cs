@@ -28,7 +28,10 @@ namespace LazySnake.Engine
         public void SetTexture(Bitmap texture)
         {
             this.texture = texture;
-            renderPanel.Source = ImageSourceForBitmap(texture);
+            if (texture != null)
+                renderPanel.Source = ImageSourceForBitmap(texture);
+            else
+                renderPanel.Source = null;
         }
 
         public void SetPosition(System.Windows.Point point)

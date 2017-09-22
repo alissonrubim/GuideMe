@@ -103,7 +103,7 @@ namespace LazySnake.Engine
             return mapItems[row, col];
         }
 
-        public void MoveTo(GameObject gameObject, Coordinate coordinate, bool moveObject = true)
+        public bool MoveTo(GameObject gameObject, Coordinate coordinate, bool moveObject = true)
         {
             if (processColision(mapItems[coordinate.Row, coordinate.Col], gameObject))
             {
@@ -116,22 +116,28 @@ namespace LazySnake.Engine
                 processNeighbors(gameObject);
                 if (moveObject)
                     gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X + (walkDistanceX * engine.BlockSize), gameObject.GetPosition().Y + (walkDistanceY * engine.BlockSize)));
+                return true;
             }
+            return false;
         }
 
         private bool processColision(GameObject oldObject, GameObject newObject)
         {
-            if(oldObject != null && oldObject.CanColideWithMe && newObject.CanColideWithMe)
+            if(oldObject != null && oldObject.CanColideWithMe)
                 if (oldObject.ColisionWithMeHandlers.ContainsKey(newObject.Type))
                     return oldObject.ColisionWithMeHandlers[newObject.Type](oldObject, newObject);
 
             return true;
         }
 
-        public void MoveTo(GameObject gameObject, Coordinate coordinate, GameAnimation animation)
+        public bool MoveTo(GameObject gameObject, Coordinate coordinate, GameAnimation animation)
         {
-            MoveTo(gameObject, coordinate, moveObject: false);
-            gameObject.Animate(animation);
+            if (MoveTo(gameObject, coordinate, moveObject: false))
+            {
+                gameObject.Animate(animation);
+                return true;
+            }
+            return false;
         }
 
         private void processNeighbors(GameObject gameObject)

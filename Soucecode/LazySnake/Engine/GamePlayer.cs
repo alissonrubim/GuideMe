@@ -76,45 +76,21 @@ namespace LazySnake.Engine
             if (!this.isWalking)
             {
                 if (currentTurnSide == GamePlayerDirection.Up)
-                {
-                    if (!gameEngine.IsWallGameObject(gameObject.Neighbors.Top))
-                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col), animationDictionary[GamePlayerDirection.Up]);
-                }
+                     gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col), animationDictionary[GamePlayerDirection.Up]);
                 else if (currentTurnSide == GamePlayerDirection.UpLeft)
-                {
-                    if (!gameEngine.IsWallGameObject(gameObject.Neighbors.TopLeft) && (!gameEngine.IsWallGameObject(gameObject.Neighbors.Top) || !gameEngine.IsWallGameObject(gameObject.Neighbors.Left)))
-                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.UpLeft]);
-                }
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.UpLeft]);
                 else if (currentTurnSide == GamePlayerDirection.UpRight)
-                {
-                    if (!gameEngine.IsWallGameObject(gameObject.Neighbors.TopRight) && (!gameEngine.IsWallGameObject(gameObject.Neighbors.Top) || !gameEngine.IsWallGameObject(gameObject.Neighbors.Right)))
-                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.UpRight]);
-                }
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.UpRight]);
                 else if (currentTurnSide == GamePlayerDirection.Left)
-                {
-                    if (!gameEngine.IsWallGameObject(gameObject.Neighbors.Left))
-                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.Left]);
-                }
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.Left]);
                 else if (currentTurnSide == GamePlayerDirection.Right)
-                {
-                    if (!gameEngine.IsWallGameObject(gameObject.Neighbors.Right))
-                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.Right]);
-                }
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.Right]);
                 else if (currentTurnSide == GamePlayerDirection.Bottom)
-                {
-                    if (!gameEngine.IsWallGameObject(gameObject.Neighbors.Bottom))
-                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col), animationDictionary[GamePlayerDirection.Bottom]);
-                }
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col), animationDictionary[GamePlayerDirection.Bottom]);
                 else if (currentTurnSide == GamePlayerDirection.BottomLeft)
-                {
-                    if (!gameEngine.IsWallGameObject(gameObject.Neighbors.BottomLeft) && (!gameEngine.IsWallGameObject(gameObject.Neighbors.Bottom) || !gameEngine.IsWallGameObject(gameObject.Neighbors.Left)))
-                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.BottomLeft]);
-                }
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.BottomLeft]);
                 else if (currentTurnSide == GamePlayerDirection.BottomRight)
-                {
-                    if (!gameEngine.IsWallGameObject(gameObject.Neighbors.BottomRight) && (!gameEngine.IsWallGameObject(gameObject.Neighbors.Bottom) || !gameEngine.IsWallGameObject(gameObject.Neighbors.Right)))
-                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.BottomRight]);
-                }
+                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.BottomRight]);
             }
         }
 
