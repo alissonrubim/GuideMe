@@ -77,15 +77,19 @@ LBAction.Walk | 1 | Walk one block in the direction that the player it's pointed
 *LBAction.FireSensor | 4 | Fire the sensor for the directio that the player it's pointed. Return an integer that's is the number os free blocks in his front*
 
 
-# More details about the code
-Using my own engine, for 2D games, you just need move the "player" (that's an animal, like a snake) for the path using command lines.
-The objective is get the target before your energy go out.
+# More details about the code and the engine.
+The code uses my own 2D game engine. It's just a engine, with some objects, some controllers and colision systems, thats work greatfull in this project. 
 
-You have a energy bar, that starts with 30 energy.
-Each time you move, the player user 1 energy bar. Turn to the sides, don't cost any energy. But walk, cost 1 energy bar.
-You can eat food during the path, each food give you more 10 energy.
-You can user a radar, for one direction, that give you the distance (in blocks) to the wall (or target).
-You object is get at the target with the best code.
+I'm costructing the engine in the same time i work with this project. So, i want, someday, have time to make the engine in a dll to make more easy to work with.
+The experience working with sprites, animations and alot of recources is amazing. I always try to make the better code, the better system, for get the most easy engine possible.
+
+### What's is missing in this project
+I love this project, but i don't have the full time to work with it. I work in some nigths, studing the project in the most time, on the weekends.
+There is a list of missing things that i hope to fix and make:
+
+So i have a lot of ideas and things to do. If you like the project, and want make some difference in the IT schools, i will be glade to work with you. If you want, you can contact me by my Twitter or Email.
+
+
 
 
 
