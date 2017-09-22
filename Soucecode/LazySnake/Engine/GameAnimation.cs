@@ -14,6 +14,7 @@ namespace LazySnake.Engine
 {
     public class GameAnimation
     {
+        public delegate void GameAnimationEventHandler();
         public class AnimateStep
         {
             public Bitmap Texture { get; set; }
@@ -23,6 +24,9 @@ namespace LazySnake.Engine
         }
 
         public string Name;
+
+        public GameAnimationEventHandler OnFinish;
+        public GameAnimationEventHandler OnStart;
 
         public AnimateStep[] Steps;
 
@@ -36,12 +40,13 @@ namespace LazySnake.Engine
             this.Steps = steps;
         }
 
-        public GameAnimation(string name, AnimateStep[] steps, GameSprite gameSprite = null, bool runForever = true)
+        public GameAnimation(string name, AnimateStep[] steps, GameSprite gameSprite = null, bool runForever = true, GameAnimationEventHandler handle = null)
         {
             this.Name = name;
             this.Steps = steps;
             this.GameSprite = gameSprite;
             this.RunForever = runForever;
+            this.OnFinish += handle;
         }
 
         public void SetGameSprite(GameSprite gameSprite)
@@ -64,6 +69,9 @@ namespace LazySnake.Engine
                     else
                     {
                         timer.Stop();
+                        Thread.Sleep(50);
+                        if(OnFinish != null)
+                            this.OnFinish();
                     }
                 }
 
@@ -80,6 +88,8 @@ namespace LazySnake.Engine
             });
             timer.Interval = 1;
             timer.Start();
+            if (OnStart != null)
+                this.OnStart();
         }
     }
 }

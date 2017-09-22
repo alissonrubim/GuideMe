@@ -27,9 +27,10 @@ namespace LazySnake.Engine
         private GameObject gameObject;
         private GameEngine gameEngine;
         private int energy = 0;
+        private bool isWalking = false;
 
-        public Dictionary<GamePlayerDirection, Bitmap> TextureDictionary = new Dictionary<GamePlayerDirection, Bitmap>();
-        public Dictionary<GamePlayerDirection, GameAnimation> AnimationDictionary = new Dictionary<GamePlayerDirection, GameAnimation>();
+        private Dictionary<GamePlayerDirection, Bitmap> textureDictionary = new Dictionary<GamePlayerDirection, Bitmap>();
+        private Dictionary<GamePlayerDirection, GameAnimation> animationDictionary = new Dictionary<GamePlayerDirection, GameAnimation>();
 
         public GamePlayer(GameEngine gameEngine)
         {
@@ -51,96 +52,129 @@ namespace LazySnake.Engine
             this.energy = value;
         }
 
+        public void AddTexture(GamePlayerDirection direction, Bitmap texture)
+        {
+            if (textureDictionary.ContainsKey(direction))
+                textureDictionary.Add(direction, texture);
+            else
+                textureDictionary[direction] = texture;
+        }
+
+        public void AddWalkAnimation(GamePlayerDirection direction, GameAnimation animation)
+        {
+            if (animationDictionary.ContainsKey(direction))
+                animationDictionary.Add(direction, animation);
+            else
+                animationDictionary[direction] = animation;
+
+            animation.OnStart += onAnimationStart;
+            animation.OnFinish += onAnimationFinish;
+        }
+
         public void Walk()
         {
-            if(currentTurnSide == GamePlayerDirection.Up)
+            if (!this.isWalking)
             {
-                if(!gameEngine.IsColisionObject(gameObject.Neighbors.Top))
-                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col), AnimationDictionary[GamePlayerDirection.Up]);
-            }
-            else if (currentTurnSide == GamePlayerDirection.UpLeft)
-            {
-                if (!gameEngine.IsColisionObject(gameObject.Neighbors.TopLeft) && (!gameEngine.IsColisionObject(gameObject.Neighbors.Top) || !gameEngine.IsColisionObject(gameObject.Neighbors.Left)))
-                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col - 1), AnimationDictionary[GamePlayerDirection.UpLeft]);
-            }
-            else if (currentTurnSide == GamePlayerDirection.UpRight)
-            {
-                if (!gameEngine.IsColisionObject(gameObject.Neighbors.TopRight) && (!gameEngine.IsColisionObject(gameObject.Neighbors.Top) || !gameEngine.IsColisionObject(gameObject.Neighbors.Right)))
-                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col + 1), AnimationDictionary[GamePlayerDirection.UpRight]);
-            }
-            else if (currentTurnSide == GamePlayerDirection.Left)
-            {
-                if (!gameEngine.IsColisionObject(gameObject.Neighbors.Left))
-                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col - 1), AnimationDictionary[GamePlayerDirection.Left]);
-            }
-            else if (currentTurnSide == GamePlayerDirection.Right)
-            {
-                if (!gameEngine.IsColisionObject(gameObject.Neighbors.Right))
-                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col + 1), AnimationDictionary[GamePlayerDirection.Right]);
-            }
-            else if (currentTurnSide == GamePlayerDirection.Bottom)
-            {
-                if (!gameEngine.IsColisionObject(gameObject.Neighbors.Bottom))
-                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col), AnimationDictionary[GamePlayerDirection.Bottom]);
-            }
-            else if (currentTurnSide == GamePlayerDirection.BottomLeft)
-            {
-                if (!gameEngine.IsColisionObject(gameObject.Neighbors.BottomLeft) && (!gameEngine.IsColisionObject(gameObject.Neighbors.Bottom) || !gameEngine.IsColisionObject(gameObject.Neighbors.Left)))
-                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col - 1), AnimationDictionary[GamePlayerDirection.BottomLeft]);
-            }
-            else if (currentTurnSide == GamePlayerDirection.BottomRight)
-            {
-                if (!gameEngine.IsColisionObject(gameObject.Neighbors.BottomRight) && (!gameEngine.IsColisionObject(gameObject.Neighbors.Bottom) || !gameEngine.IsColisionObject(gameObject.Neighbors.Right)))
-                    gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col + 1), AnimationDictionary[GamePlayerDirection.BottomRight]);
+                if (currentTurnSide == GamePlayerDirection.Up)
+                {
+                    if (!gameEngine.IsColisionObject(gameObject.Neighbors.Top))
+                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col), animationDictionary[GamePlayerDirection.Up]);
+                }
+                else if (currentTurnSide == GamePlayerDirection.UpLeft)
+                {
+                    if (!gameEngine.IsColisionObject(gameObject.Neighbors.TopLeft) && (!gameEngine.IsColisionObject(gameObject.Neighbors.Top) || !gameEngine.IsColisionObject(gameObject.Neighbors.Left)))
+                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.UpLeft]);
+                }
+                else if (currentTurnSide == GamePlayerDirection.UpRight)
+                {
+                    if (!gameEngine.IsColisionObject(gameObject.Neighbors.TopRight) && (!gameEngine.IsColisionObject(gameObject.Neighbors.Top) || !gameEngine.IsColisionObject(gameObject.Neighbors.Right)))
+                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row - 1, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.UpRight]);
+                }
+                else if (currentTurnSide == GamePlayerDirection.Left)
+                {
+                    if (!gameEngine.IsColisionObject(gameObject.Neighbors.Left))
+                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.Left]);
+                }
+                else if (currentTurnSide == GamePlayerDirection.Right)
+                {
+                    if (!gameEngine.IsColisionObject(gameObject.Neighbors.Right))
+                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.Right]);
+                }
+                else if (currentTurnSide == GamePlayerDirection.Bottom)
+                {
+                    if (!gameEngine.IsColisionObject(gameObject.Neighbors.Bottom))
+                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col), animationDictionary[GamePlayerDirection.Bottom]);
+                }
+                else if (currentTurnSide == GamePlayerDirection.BottomLeft)
+                {
+                    if (!gameEngine.IsColisionObject(gameObject.Neighbors.BottomLeft) && (!gameEngine.IsColisionObject(gameObject.Neighbors.Bottom) || !gameEngine.IsColisionObject(gameObject.Neighbors.Left)))
+                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col - 1), animationDictionary[GamePlayerDirection.BottomLeft]);
+                }
+                else if (currentTurnSide == GamePlayerDirection.BottomRight)
+                {
+                    if (!gameEngine.IsColisionObject(gameObject.Neighbors.BottomRight) && (!gameEngine.IsColisionObject(gameObject.Neighbors.Bottom) || !gameEngine.IsColisionObject(gameObject.Neighbors.Right)))
+                        gameEngine.MoveTo(gameObject, new Coordinate(gameObject.Coordinates.Row + 1, gameObject.Coordinates.Col + 1), animationDictionary[GamePlayerDirection.BottomRight]);
+                }
             }
         }
 
         public void TurnUp()
         {
-            currentTurnSide = GamePlayerDirection.Up;
-            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
+            turnSide(GamePlayerDirection.Up);
         }
 
         public void TurnUpLeft()
         {
-            currentTurnSide = GamePlayerDirection.UpLeft;
-            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
+            turnSide(GamePlayerDirection.UpLeft);
         }
 
         public void TurnUpRight()
         {
-            currentTurnSide = GamePlayerDirection.UpRight;
-            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
+            turnSide(GamePlayerDirection.UpRight);
         }
 
         public void TurnLeft()
         {
-            currentTurnSide = GamePlayerDirection.Left;
-            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
+            turnSide(GamePlayerDirection.Left);
         }
 
         public void TurnDown()
         {
-            currentTurnSide = GamePlayerDirection.Bottom;
-            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
+            turnSide(GamePlayerDirection.Bottom);
         }
 
         public void TurnDownLeft()
         {
-            currentTurnSide = GamePlayerDirection.BottomLeft;
-            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
+            turnSide(GamePlayerDirection.BottomLeft);
         }
 
         public void TurnDownRight()
         {
-            currentTurnSide = GamePlayerDirection.BottomRight;
-            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
+            turnSide(GamePlayerDirection.BottomRight);
         }
 
         public void TurnRight()
         {
-            currentTurnSide = GamePlayerDirection.Right;
-            gameObject.SetTexture(TextureDictionary[currentTurnSide]);
+            turnSide(GamePlayerDirection.Right);
+        }
+
+        private void turnSide(GamePlayerDirection direction)
+        {
+            if (!this.isWalking)
+            {
+                currentTurnSide = direction;
+                gameObject.SetTexture(textureDictionary[currentTurnSide]);
+            }
+        }
+
+        private void onAnimationFinish()
+        {
+            this.isWalking = false;
+        }
+
+        private void onAnimationStart()
+        {
+            this.isWalking = true;
         }
     }
 }

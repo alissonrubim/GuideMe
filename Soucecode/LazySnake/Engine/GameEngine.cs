@@ -25,6 +25,7 @@ namespace LazySnake.Engine
         private GamePlayer[] players = new GamePlayer[2];
         public int BlockSize = 25;
         public int MaximumEnergy = 30;
+        private int WalkTime = 500;
 
         public GameEngine(Canvas parentCanvas)
         {
@@ -143,50 +144,6 @@ namespace LazySnake.Engine
             energySprites[MaximumEnergy - 1].SetPosition(new System.Windows.Point(energySprites[0].GetPosition().X + energySprites[0].GetSize().Width + ((MaximumEnergy - 4) * 18) + 36, 5));
             energySprites[MaximumEnergy - 1].SetSize(new System.Windows.Size(25, 20));
             energySprites[MaximumEnergy - 1].Render(energyCanvas);
-
-            /*System.Windows.Media.FontFamily f = new System.Windows.Media.FontFamily("Comic Sans MS");
-
-           Label labelTime = new Label();
-           labelTime.Visibility = Visibility.Visible;
-           labelTime.Content = "00:00:00";
-           labelTime.FontFamily = f;
-           topCanvas.Children.Add(labelTime);*/
-
-            /// calcula te energy
-            /*int currentEnergy = 5;
-            GameSprite firstEnergySprite = new GameSprite();
-            if(currentEnergy >= 1)
-                firstEnergySprite.SetTexture(ResourceTextures.life_11);
-            else
-                firstEnergySprite.SetTexture(ResourceTextures.life_10);
-            firstEnergySprite.SetPosition(new System.Windows.Point(10, 5));
-            firstEnergySprite.SetSize(new System.Windows.Size(36, 20));
-            firstEnergySprite.Render(energyCanvas);
-
-            double positionX = firstEnergySprite.GetPosition().X + firstEnergySprite.GetSize().Width;
-            int i = 0;
-            for (i=0; i < MaximumEnergy - 2; i++)
-            {
-                GameSprite n = new GameSprite();
-
-                if(i + 1 < currentEnergy)
-                    n.SetTexture(ResourceTextures.life_21);
-                else
-                    n.SetTexture(ResourceTextures.life_20);
-                n.SetPosition(new System.Windows.Point(positionX + (i*18), 5));
-                n.SetSize(new System.Windows.Size(18, 20));
-                n.Render(energyCanvas);
-            }
-
-            GameSprite lastEnergySprite = new GameSprite();
-            if (currentEnergy >= MaximumEnergy)
-                lastEnergySprite.SetTexture(ResourceTextures.life_31);
-            else
-                lastEnergySprite.SetTexture(ResourceTextures.life_30);
-            lastEnergySprite.SetPosition(new System.Windows.Point(positionX + ((i-2) * 18) + 36, 5));
-            lastEnergySprite.SetSize(new System.Windows.Size(25, 20));
-            lastEnergySprite.Render(energyCanvas);*/
-            /// calcula te energy
         }
 
         public void refreshEnergyBar()
@@ -201,7 +158,8 @@ namespace LazySnake.Engine
                         energySprites[i].SetTexture(ResourceTextures.life_31);
                     else
                         energySprites[i].SetTexture(ResourceTextures.life_21);
-                }else
+                }
+                else
                 {
                     if (i == 0)
                         energySprites[i].SetTexture(ResourceTextures.life_10);
@@ -243,16 +201,16 @@ namespace LazySnake.Engine
             GameSpriteSheet playerSpriteSheet = new GameSpriteSheet(ResourceTextures.player_sheet, new System.Drawing.Point(32, 32));
             players[0] = new GamePlayer(this);
             players[0].SetEnergy(MaximumEnergy);
-            players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.Up, playerSpriteSheet.GetSprite(3, 1));
-            players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.UpLeft, playerSpriteSheet.GetSprite(2, 7));
-            players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.UpRight, playerSpriteSheet.GetSprite(3, 10));
-            players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.Left, playerSpriteSheet.GetSprite(1, 1));
-            players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.Right, playerSpriteSheet.GetSprite(2, 4));
-            players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.Bottom, playerSpriteSheet.GetSprite(0, 1));
-            players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.BottomLeft, playerSpriteSheet.GetSprite(1, 7));
-            players[0].TextureDictionary.Add(GamePlayer.GamePlayerDirection.BottomRight, playerSpriteSheet.GetSprite(0, 7));
+            players[0].AddTexture(GamePlayer.GamePlayerDirection.Up, playerSpriteSheet.GetSprite(3, 1));
+            players[0].AddTexture(GamePlayer.GamePlayerDirection.UpLeft, playerSpriteSheet.GetSprite(2, 7));
+            players[0].AddTexture(GamePlayer.GamePlayerDirection.UpRight, playerSpriteSheet.GetSprite(3, 10));
+            players[0].AddTexture(GamePlayer.GamePlayerDirection.Left, playerSpriteSheet.GetSprite(1, 1));
+            players[0].AddTexture(GamePlayer.GamePlayerDirection.Right, playerSpriteSheet.GetSprite(2, 4));
+            players[0].AddTexture(GamePlayer.GamePlayerDirection.Bottom, playerSpriteSheet.GetSprite(0, 1));
+            players[0].AddTexture(GamePlayer.GamePlayerDirection.BottomLeft, playerSpriteSheet.GetSprite(1, 7));
+            players[0].AddTexture(GamePlayer.GamePlayerDirection.BottomRight, playerSpriteSheet.GetSprite(0, 7));
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Up, createWalkAnimation(new Bitmap[]{
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.Up, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(3, 0),
                 playerSpriteSheet.GetSprite(3, 1),
                 playerSpriteSheet.GetSprite(3, 2),
@@ -260,7 +218,7 @@ namespace LazySnake.Engine
                 playerSpriteSheet.GetSprite(3, 4)
             }, new System.Windows.Point(0, BlockSize * -1)));
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.UpLeft, createWalkAnimation(new Bitmap[]{
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.UpLeft, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(3, 6),
                 playerSpriteSheet.GetSprite(3, 7),
                 playerSpriteSheet.GetSprite(3, 8),
@@ -268,7 +226,7 @@ namespace LazySnake.Engine
                 playerSpriteSheet.GetSprite(3, 10)
             }, new System.Windows.Point(BlockSize * -1, BlockSize * -1)));
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.UpRight, createWalkAnimation(new Bitmap[]{
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.UpRight, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(2, 6),
                 playerSpriteSheet.GetSprite(2, 7),
                 playerSpriteSheet.GetSprite(2, 8),
@@ -277,7 +235,7 @@ namespace LazySnake.Engine
             }, new System.Windows.Point(BlockSize, BlockSize * -1)));
 
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Left, createWalkAnimation(new Bitmap[]{
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.Left, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(1, 0),
                 playerSpriteSheet.GetSprite(1, 1),
                 playerSpriteSheet.GetSprite(1, 2),
@@ -285,7 +243,7 @@ namespace LazySnake.Engine
                 playerSpriteSheet.GetSprite(1, 4)
             }, new System.Windows.Point(BlockSize * -1, 0)));
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Right, createWalkAnimation(new Bitmap[]{
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.Right, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(2, 0),
                 playerSpriteSheet.GetSprite(2, 1),
                 playerSpriteSheet.GetSprite(2, 2),
@@ -293,7 +251,7 @@ namespace LazySnake.Engine
                 playerSpriteSheet.GetSprite(2, 4)
             }, new System.Windows.Point(BlockSize, 0)));
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.Bottom, createWalkAnimation(new Bitmap[]{
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.Bottom, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(0, 0),
                 playerSpriteSheet.GetSprite(0, 1),
                 playerSpriteSheet.GetSprite(0, 2),
@@ -301,7 +259,7 @@ namespace LazySnake.Engine
                 playerSpriteSheet.GetSprite(0, 4)
             }, new System.Windows.Point(0, BlockSize)));
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.BottomLeft, createWalkAnimation(new Bitmap[]{
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.BottomLeft, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(1, 6),
                 playerSpriteSheet.GetSprite(1, 7),
                 playerSpriteSheet.GetSprite(1, 8),
@@ -309,7 +267,7 @@ namespace LazySnake.Engine
                 playerSpriteSheet.GetSprite(1, 10)
             }, new System.Windows.Point(BlockSize * -1, BlockSize)));
 
-            players[0].AnimationDictionary.Add(GamePlayer.GamePlayerDirection.BottomRight, createWalkAnimation(new Bitmap[]{
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.BottomRight, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(0, 6),
                 playerSpriteSheet.GetSprite(0, 7),
                 playerSpriteSheet.GetSprite(0, 8),
@@ -330,7 +288,7 @@ namespace LazySnake.Engine
                 {
                     PositionDiff = new System.Windows.Point(totalPositionDiff.X / sprites.Length, totalPositionDiff.Y / sprites.Length),
                     Texture = sprites[i],
-                    Time = 500 / sprites.Length
+                    Time = WalkTime / sprites.Length
                 };
             }
 
