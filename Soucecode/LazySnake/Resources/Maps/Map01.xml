@@ -68,7 +68,7 @@
 
   <vertex col="6" row="0">1</vertex>
   <vertex col="6" row="1">0</vertex>
-  <vertex col="6" row="2">0</vertex>
+  <vertex col="6" row="2">4</vertex>
   <vertex col="6" row="3">0</vertex>
   <vertex col="6" row="4">1</vertex>
   <vertex col="6" row="5">1</vertex>

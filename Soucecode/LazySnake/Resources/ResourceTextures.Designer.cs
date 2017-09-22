@@ -63,6 +63,16 @@ namespace LazySnake.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap batery {
+            get {
+                object obj = ResourceManager.GetObject("batery", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap food_sheet {
             get {
                 object obj = ResourceManager.GetObject("food_sheet", resourceCulture);
@@ -156,6 +166,16 @@ namespace LazySnake.Resources {
         internal static System.Drawing.Bitmap Rock {
             get {
                 object obj = ResourceManager.GetObject("Rock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Untitled_4 {
+            get {
+                object obj = ResourceManager.GetObject("Untitled_4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -38,6 +38,7 @@ namespace LazySnake.Engine
         {
             currentMap = new GameMap(this);
             currentMap.OnRenderGameObject += map_onRenderGameObject;
+            currentMap.OnProcessXMLMap += map_onProcessXMLMap;
             currentMap.LoadMap(map);
         }
 
@@ -56,15 +57,24 @@ namespace LazySnake.Engine
             return layers[layerIndex];
         }
 
-        public void MoveTo(GameObject gameObject, Coordinate cordinates)
-        {
-            MoveTo(gameObject, cordinates, null);
-        }
-
         public void MoveTo(GameObject gameObject, Coordinate cordinates, GameAnimation animation)
         {
+            GameObject oldGameObject = currentMap.GetGameObjectAt(cordinates.Row, cordinates.Col);
             currentMap.MoveTo(gameObject, cordinates, animation);
-            decreseEnergy();
+
+
+            if (oldGameObject != null && oldGameObject.Type == GameObject.GameObjectType.Batery)
+            {
+                MessageBox.Show("Bateria");
+            }
+            else if (oldGameObject != null && oldGameObject.Type == GameObject.GameObjectType.Target)
+            {
+                MessageBox.Show("Ganhou");
+            }
+            else
+            {
+                decreseEnergy();
+            }
         }
 
         private void decreseEnergy()
@@ -310,51 +320,87 @@ namespace LazySnake.Engine
                 gameObject.SetTexture(foodSheet.GetSprite(4,7));
                 gameObject.Render(this.GetLayerByIndex(1));
             }
+            else if (gameObject.Type == GameObject.GameObjectType.Batery)
+            {
+                gameObject.SetTexture(ResourceTextures.batery);
+                gameObject.SetSize(new System.Windows.Size(15, 15));
+                gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X + 5, gameObject.GetPosition().Y));
+                gameObject.Render(this.GetLayerByIndex(1));
+            }
             else if (gameObject.Type == GameObject.GameObjectType.Wall)
             {
                 gameObject.SetTexture(ResourceTextures.wall);
 
-                if (!IsColisionObject(gameObject.Neighbors.Bottom))
+                if (!IsWallGameObject(gameObject.Neighbors.Bottom))
                     gameObject.SetTexture(ResourceTextures.wall_bottom);
 
-                if (!IsColisionObject(gameObject.Neighbors.Top) && !IsColisionObject(gameObject.Neighbors.Right))
+                if (!IsWallGameObject(gameObject.Neighbors.Top) && !IsWallGameObject(gameObject.Neighbors.Right))
                     gameObject.SetTexture(ResourceTextures.wall_top);
 
-                if (IsColisionObject(gameObject.Neighbors.Bottom) && IsColisionObject(gameObject.Neighbors.Right) && !IsColisionObject(gameObject.Neighbors.BottomRight))
+                if (IsWallGameObject(gameObject.Neighbors.Bottom) && IsWallGameObject(gameObject.Neighbors.Right) && !IsWallGameObject(gameObject.Neighbors.BottomRight))
                     gameObject.SetTexture(ResourceTextures.wall_3);
 
-                if (!IsColisionObject(gameObject.Neighbors.Bottom) && !IsColisionObject(gameObject.Neighbors.Right) && !IsColisionObject(gameObject.Neighbors.Left))
+                if (!IsWallGameObject(gameObject.Neighbors.Bottom) && !IsWallGameObject(gameObject.Neighbors.Right) && !IsWallGameObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_bottom_right);
 
-                if (!IsColisionObject(gameObject.Neighbors.Bottom) && !IsColisionObject(gameObject.Neighbors.Right) && IsColisionObject(gameObject.Neighbors.Top))
+                if (!IsWallGameObject(gameObject.Neighbors.Bottom) && !IsWallGameObject(gameObject.Neighbors.Right) && IsWallGameObject(gameObject.Neighbors.Top))
                     gameObject.SetTexture(ResourceTextures.wall_7);
 
-                if (!IsColisionObject(gameObject.Neighbors.Bottom) && !IsColisionObject(gameObject.Neighbors.Right)
-                        && IsColisionObject(gameObject.Neighbors.Top)
-                        && IsColisionObject(gameObject.Neighbors.Left))
+                if (!IsWallGameObject(gameObject.Neighbors.Bottom) && !IsWallGameObject(gameObject.Neighbors.Right)
+                        && IsWallGameObject(gameObject.Neighbors.Top)
+                        && IsWallGameObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_6);
 
-                if (IsColisionObject(gameObject.Neighbors.Bottom)
-                        && IsColisionObject(gameObject.Neighbors.Top)
-                        && !IsColisionObject(gameObject.Neighbors.Right))
+                if (IsWallGameObject(gameObject.Neighbors.Bottom)
+                        && IsWallGameObject(gameObject.Neighbors.Top)
+                        && !IsWallGameObject(gameObject.Neighbors.Right))
                     gameObject.SetTexture(ResourceTextures.wall_side_right);
 
-                if (!IsColisionObject(gameObject.Neighbors.Bottom) && !IsColisionObject(gameObject.Neighbors.Right) && !IsColisionObject(gameObject.Neighbors.Top)
-                        && IsColisionObject(gameObject.Neighbors.Left))
+                if (!IsWallGameObject(gameObject.Neighbors.Bottom) && !IsWallGameObject(gameObject.Neighbors.Right) && !IsWallGameObject(gameObject.Neighbors.Top)
+                        && IsWallGameObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_5);
 
-                if (!IsColisionObject(gameObject.Neighbors.Bottom) 
-                        && IsColisionObject(gameObject.Neighbors.Right)
-                        && !IsColisionObject(gameObject.Neighbors.Left))
+                if (!IsWallGameObject(gameObject.Neighbors.Bottom) 
+                        && IsWallGameObject(gameObject.Neighbors.Right)
+                        && !IsWallGameObject(gameObject.Neighbors.Left))
                     gameObject.SetTexture(ResourceTextures.wall_4);
 
                 gameObject.Render(this.GetLayerByIndex(2));
             }
         }
 
-        public bool IsColisionObject(GameObject gameObject)
+        private GameObject map_onProcessXMLMap(string value, int row, int col)
         {
-            return gameObject != null && gameObject.MakeColision == true;
+            GameObject gameObject = null;
+            if (value == "1")
+                gameObject = new GameObject(new Coordinate(row, col))
+                {
+                    Type = GameObject.GameObjectType.Wall,
+                    CanColideWithMe = true
+                };
+            else if (value == "2")
+                gameObject = new GameObject(new Coordinate(row, col))
+                {
+                    Type = GameObject.GameObjectType.Player
+                };
+            else if (value == "3")
+                gameObject = new GameObject(new Coordinate(row, col))
+                {
+                    Type = GameObject.GameObjectType.Target,
+                    CanColideWithMe = true
+                };
+            else if (value == "4")
+                gameObject = new GameObject(new Coordinate(row, col))
+                {
+                    Type = GameObject.GameObjectType.Batery,
+                    CanColideWithMe = true
+                };
+            return gameObject;
+        }
+
+        public bool IsWallGameObject(GameObject gameObject)
+        {
+            return gameObject != null && gameObject.CanColideWithMe == true && gameObject.Type == GameObjectType.Wall;
         }
     }
 }

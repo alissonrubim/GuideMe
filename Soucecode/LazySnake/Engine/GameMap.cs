@@ -23,8 +23,10 @@ namespace LazySnake.Engine
     class GameMap
     {
         public delegate void RenderGameObjectHandle(GameObject gameObject);
+        public delegate GameObject ProcessXMLMapHandle(string nodeValue, int row, int col);
 
         public RenderGameObjectHandle OnRenderGameObject;
+        public ProcessXMLMapHandle OnProcessXMLMap;
 
         private GameObject[,] mapItems;
         private GameEngine engine;
@@ -51,22 +53,9 @@ namespace LazySnake.Engine
                 int row = Convert.ToInt32(itemNode.Attributes["row"].Value);
                 int col = Convert.ToInt32(itemNode.Attributes["col"].Value);
                 mapItems[row, col] = null;
-                if (itemNode.InnerText == "1")
-                    mapItems[row, col] = new GameObject(new Coordinate(row, col))
-                    {
-                        Type = GameObject.GameObjectType.Wall,
-                        MakeColision = true
-                    };
-                else if (itemNode.InnerText == "2")
-                    mapItems[row, col] = new GameObject(new Coordinate(row, col))
-                    {
-                        Type = GameObject.GameObjectType.Player
-                    };
-                else if (itemNode.InnerText == "3")
-                    mapItems[row, col] = new GameObject(new Coordinate(row, col))
-                    {
-                        Type = GameObject.GameObjectType.Target
-                    };
+
+                if (OnProcessXMLMap != null)
+                    mapItems[row, col] = OnProcessXMLMap(itemNode.InnerText, row, col);
 
                 if (mapItems[row, col] != null)
                     mapItems[row, col].SetSize(new System.Windows.Size(engine.BlockSize, engine.BlockSize));
@@ -116,15 +105,27 @@ namespace LazySnake.Engine
 
         public void MoveTo(GameObject gameObject, Coordinate coordinate, bool moveObject = true)
         {
-            int walkDistanceX = coordinate.Col - gameObject.Coordinates.Col;
-            int walkDistanceY = coordinate.Row - gameObject.Coordinates.Row;
+            if (processColision(mapItems[coordinate.Row, coordinate.Col], gameObject))
+            {
+                int walkDistanceX = coordinate.Col - gameObject.Coordinates.Col;
+                int walkDistanceY = coordinate.Row - gameObject.Coordinates.Row;
 
-            mapItems[gameObject.Coordinates.Row, gameObject.Coordinates.Col] = null;
-            mapItems[coordinate.Row, coordinate.Col] = gameObject;
-            gameObject.Coordinates = coordinate;
-            processNeighbors(gameObject);
-            if(moveObject)
-                gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X + (walkDistanceX * engine.BlockSize) , gameObject.GetPosition().Y + (walkDistanceY * engine.BlockSize)));
+                mapItems[gameObject.Coordinates.Row, gameObject.Coordinates.Col] = null;
+                mapItems[coordinate.Row, coordinate.Col] = gameObject;
+                gameObject.Coordinates = coordinate;
+                processNeighbors(gameObject);
+                if (moveObject)
+                    gameObject.SetPosition(new System.Windows.Point(gameObject.GetPosition().X + (walkDistanceX * engine.BlockSize), gameObject.GetPosition().Y + (walkDistanceY * engine.BlockSize)));
+            }
+        }
+
+        private bool processColision(GameObject oldObject, GameObject newObject)
+        {
+            if(oldObject != null && oldObject.CanColideWithMe && newObject.CanColideWithMe)
+                if (oldObject.ColisionWithMeHandlers.ContainsKey(newObject.Type))
+                    return oldObject.ColisionWithMeHandlers[newObject.Type](oldObject, newObject);
+
+            return true;
         }
 
         public void MoveTo(GameObject gameObject, Coordinate coordinate, GameAnimation animation)
@@ -140,8 +141,30 @@ namespace LazySnake.Engine
             int rowCount = mapItems.GetLength(0);
             int colCount = mapItems.GetLength(1);
 
-            gameObject.Neighbors = new Neighbor();
+            //Remove my old neighbors with NULL
+            Neighbor oldNeighbors = gameObject.Neighbors;
+            if (oldNeighbors != null)
+            {
+                if (oldNeighbors.Top != null)
+                    oldNeighbors.Top.Neighbors.Bottom = null;
+                if (oldNeighbors.Bottom != null)
+                    oldNeighbors.Bottom.Neighbors.Top = null;
+                if (oldNeighbors.Left != null)
+                    oldNeighbors.Left.Neighbors.Right = null;
+                if (oldNeighbors.Right != null)
+                    oldNeighbors.Right.Neighbors.Left = null;
+                if (oldNeighbors.TopRight != null)
+                    oldNeighbors.TopRight.Neighbors.BottomLeft = null;
+                if (oldNeighbors.TopLeft != null)
+                    oldNeighbors.TopLeft.Neighbors.BottomRight = null;
+                if (oldNeighbors.BottomRight != null)
+                    oldNeighbors.BottomRight.Neighbors.TopLeft = null;
+                if (oldNeighbors.BottomLeft != null)
+                    oldNeighbors.BottomLeft.Neighbors.TopRight = null;
+            }
 
+            gameObject.Neighbors = new Neighbor();
+            //Update ME with my neighbors
             if (i > 0)
                 gameObject.Neighbors.Top = mapItems[i - 1, j];
             if (i > 0 && j > 0)
@@ -158,6 +181,24 @@ namespace LazySnake.Engine
                 gameObject.Neighbors.BottomLeft = mapItems[i + 1, j - 1];
             if (i < rowCount - 1 && j < colCount - 1)
                 gameObject.Neighbors.BottomRight = mapItems[i + 1, j + 1];
+
+            //Update my new neighbors with me
+            if (gameObject.Neighbors.Top != null && gameObject.Neighbors.Top.Neighbors != null)
+                gameObject.Neighbors.Top.Neighbors.Bottom = gameObject;
+            if (gameObject.Neighbors.Bottom != null && gameObject.Neighbors.Bottom.Neighbors != null)
+                gameObject.Neighbors.Bottom.Neighbors.Top = gameObject;
+            if (gameObject.Neighbors.Left != null && gameObject.Neighbors.Left.Neighbors != null)
+                gameObject.Neighbors.Left.Neighbors.Right = gameObject;
+            if (gameObject.Neighbors.Right != null && gameObject.Neighbors.Right.Neighbors != null)
+                gameObject.Neighbors.Right.Neighbors.Left = gameObject;
+            if (gameObject.Neighbors.TopRight != null && gameObject.Neighbors.TopRight.Neighbors != null)
+                gameObject.Neighbors.TopRight.Neighbors.BottomLeft = gameObject;
+            if (gameObject.Neighbors.TopLeft != null && gameObject.Neighbors.TopLeft.Neighbors != null)
+                gameObject.Neighbors.TopLeft.Neighbors.BottomRight = gameObject;
+            if (gameObject.Neighbors.BottomRight != null && gameObject.Neighbors.BottomRight.Neighbors != null)
+                gameObject.Neighbors.BottomRight.Neighbors.TopLeft = gameObject;
+            if (gameObject.Neighbors.BottomLeft != null && gameObject.Neighbors.BottomLeft.Neighbors != null)
+                gameObject.Neighbors.BottomLeft.Neighbors.TopRight = gameObject;
         }
     }
 }

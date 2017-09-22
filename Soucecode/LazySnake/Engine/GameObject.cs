@@ -18,6 +18,8 @@ namespace LazySnake.Engine
 {
     public class GameObject: GameSprite
     {
+        public delegate bool GameObjectColisionHandle(GameObject currentObject, GameObject colisorObject);
+
         public class Coordinate
         {
             public int Col;
@@ -44,12 +46,14 @@ namespace LazySnake.Engine
 
         public enum GameObjectType
         {
-            Wall = 0,
-            Player = 1,
-            Target = 2
+            Wall = 1,
+            Player = 2,
+            Target = 3,
+            Batery = 4
         }
 
-        public bool MakeColision { get; set; }
+        public bool CanColideWithMe { get; set; }
+        public Dictionary<GameObjectType, GameObjectColisionHandle> ColisionWithMeHandlers;
         public Neighbor Neighbors { get; set; }
         public GameObjectType Type { get; set; }
         public Coordinate Coordinates { get; set; }
