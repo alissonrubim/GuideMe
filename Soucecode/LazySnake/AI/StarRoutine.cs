@@ -38,12 +38,12 @@ namespace LazySnake
 
                     for(int i = currentTrack.CurrentVertex.RowIndex - 1; i <= currentTrack.CurrentVertex.RowIndex + 1; i++)
                     {
-                        if (i >= 0 && i < map.GetSize().Height)
-                            for (int j = currentTrack.CurrentVertex.ColIndex; j <= currentTrack.CurrentVertex.ColIndex + 1; j++)
-                                if (j >= 0 && j < map.GetSize().Width)
+                        if (i >= 0 && i < map.GetSize().Rows)
+                            for (int j = currentTrack.CurrentVertex.ColIndex - 1; j <= currentTrack.CurrentVertex.ColIndex + 1; j++)
+                                if (j >= 0 && j < map.GetSize().Cols)
                                     if (currentTrack.CurrentVertex.RowIndex != i || currentTrack.CurrentVertex.ColIndex != j) {
                                         GameObject gameObject = map.GetGameObjectAt(i, j);
-                                        if (gameObject != null && gameObject.Type != GameObject.GameObjectType.Wall)
+                                        if (gameObject == null || gameObject.Type != GameObject.GameObjectType.Wall)
                                             addVertex(opened, closed, currentTrack, target, heuristic, i, j);
                                     }
                     }

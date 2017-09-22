@@ -22,6 +22,12 @@ namespace LazySnake.Engine
 {
     class GameMap
     {
+        public class GameMapSize
+        {
+            public int Cols;
+            public int Rows;
+        }
+
         public delegate void RenderGameObjectHandle(GameObject gameObject);
         public delegate GameObject ProcessXMLMapHandle(string nodeValue, int row, int col);
 
@@ -75,9 +81,13 @@ namespace LazySnake.Engine
             renderMap();
         }
 
-        public System.Windows.Size GetSize()
+        public GameMapSize GetSize()
         {
-            return new System.Windows.Size(mapItems.GetLength(0), mapItems.GetLength(1));
+            return new GameMapSize()
+            {
+                Rows = mapItems.GetLength(0),
+                Cols = mapItems.GetLength(1)
+            };
         }
         private void renderMap()
         {

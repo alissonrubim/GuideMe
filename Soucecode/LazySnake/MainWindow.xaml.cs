@@ -98,8 +98,8 @@ namespace LazySnake
 
             Vertex origem = null;
             Vertex meta = null;
-            for (int i = 0; i < engine.GetMap().GetSize().Width; i++)
-                for (int j = 0; j < engine.GetMap().GetSize().Height; j++) {
+            for (int i = 0; i < engine.GetMap().GetSize().Rows; i++)
+                for (int j = 0; j < engine.GetMap().GetSize().Cols; j++) {
                     GameObject a = engine.GetMap().GetGameObjectAt(i, j);
                     if (a != null)
                     {
