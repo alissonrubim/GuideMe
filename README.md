@@ -4,7 +4,7 @@ The ideia is costruct the best script for a devide that the boy Marcus, who does
 
 The device can just see one meter in front him, and detect what it's on your front. Your object, it's create a beste script to go to the key using logic and resolve the path's problems.
 
-# The game rules
+## The game rules
 First of all, you need to understand that the devide uses battery to work. So, every time that you walk with Marcus on the path, the battery goes down. You start with some battery energy and you need get the key before the battery goes out, because without batery, Marcus can't see anymore.
 
 In the way, you can get some extra baterry to charge your device. It's important consider that on your script, because you need to go until the baterry to charge.
@@ -17,19 +17,49 @@ Turning the player cost anything. but, after turn the player, you can now walk i
 
 So, now, you need to find the better way to get on the key, before your energy goes out. Gook luck!
 
-# The commands list
+## The commands list
 In the script, you need to create a method called **Loop**. 
 
  ```csharp
   public void LBAction Loop(LBPlayer player, LBTarget target){
-     return LBAction.TurnLeft;
+     return LBAction.TurnLeft; //will turn Marcus, to the left
   }
  ```
 
 This method receive some kind of informations. Like the Player object, and the target (key) position.
-You can seet more in this table:
+You can seet more in this examples:
 
-**#put here the table with the parameters#**
+### The LBTarget object
+ ```csharp
+  public void LBAction Loop(LBPlayer player, LBTarget target){
+     int posX = target.Position.X //The position of the target in the map
+     int posY = target.Position.Y //The position of the target in the map
+  }
+ ```
+ 
+Comand | Description
+------------ | ------------- 
+LBTarget.Position.X | Return's the number os block in the map, that's the position of the target in the row
+LBTarget.Position.Y | Return's the number os block in the map, that's the position of the target in the col
+
+### The LBPlayer object
+ ```csharp
+  public void LBAction Loop(LBPlayer player, LBTarget target){
+     int posX = player.Position.X //The position of the player in the map
+     int posY = player.Position.Y //The position of the player in the map
+     
+     if(player.WhatsAhead() == LBObject.Target){
+        return LBAction.Walk;
+     }else{
+        if(player.Direction == LBDirections.Left){
+          return LBAction.Walk;
+        }else{
+          return LBAction.TurnLeft;
+        }
+     }
+  }
+ ```
+### The LBAction result object
 
 The Loop method needs return an object, the **LBAction** thats will be used to command the player.
 
