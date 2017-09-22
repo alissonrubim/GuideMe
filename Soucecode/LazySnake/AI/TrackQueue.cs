@@ -25,6 +25,7 @@ namespace LazySnake
             {
                 if(node.Value.CurrentVertex.Equals(v))
                     return true;
+                node = node.Next;
             }
             return false;
         }

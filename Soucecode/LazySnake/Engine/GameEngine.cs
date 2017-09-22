@@ -411,7 +411,6 @@ namespace LazySnake.Engine
 
         private bool playerColideWithTarget(GameObject targetObject, GameObject playerObject)
         {
-            MessageBox.Show("GANHOU");
             return true;
         }
 

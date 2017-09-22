@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -18,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.Xml;
 
 namespace LazySnake
@@ -117,8 +119,64 @@ namespace LazySnake
                 }
             List<Vertex> caminho;
             if (algoritmo.Start(engine.GetMap(), origem, meta, new Heuristic(), out caminho))
+            {
                 ///mostrarCaminho(caminho);
                 MessageBox.Show("caminho encontrado!");
+                caminho.Reverse();
+
+                Thread anotherThread = new Thread(new ThreadStart(() =>
+                {
+                    foreach (Vertex v in caminho)
+                    {
+                        GameObject.Coordinate playerCoord = player.GetGameObject().Coordinates;
+                                
+                        if (!(playerCoord.Row == v.RowIndex && playerCoord.Col == v.ColIndex)) {
+                            Application.Current.Dispatcher.Invoke(DispatcherPriority.Render, new ThreadStart(delegate
+                            {
+                                if (playerCoord.Row > v.RowIndex && playerCoord.Col == v.ColIndex)
+                                {
+                                    player.TurnUp();
+                                }
+                                else if (playerCoord.Row < v.RowIndex && playerCoord.Col == v.ColIndex)
+                                {
+                                    player.TurnDown();
+                                }
+                                else if (playerCoord.Row == v.RowIndex && playerCoord.Col > v.ColIndex)
+                                {
+                                    player.TurnLeft();
+                                }
+                                else if (playerCoord.Row == v.RowIndex && playerCoord.Col < v.ColIndex)
+                                {
+                                    player.TurnRight();
+                                }
+                                else if (playerCoord.Row < v.RowIndex && playerCoord.Col > v.ColIndex)
+                                {
+                                    player.TurnDownLeft();
+                                }
+                                else if (playerCoord.Row < v.RowIndex && playerCoord.Col < v.ColIndex)
+                                {
+                                    player.TurnDownRight();
+                                }
+                                else if (playerCoord.Row > v.RowIndex && playerCoord.Col > v.ColIndex)
+                                {
+                                    player.TurnUpLeft();
+                                }
+                                else if (playerCoord.Row > v.RowIndex && playerCoord.Col < v.ColIndex)
+                                {
+                                    player.TurnUpRight();
+                                }
+
+                                player.Walk();
+
+                            }));
+                            while (player.IsWalking);
+                        }
+                    }
+                }));
+                anotherThread.Start();
+
+
+            }
             else
                 MessageBox.Show("caminho não encontrado!");
         }

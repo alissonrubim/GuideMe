@@ -28,6 +28,13 @@ namespace LazySnake.Engine
         private GameEngine gameEngine;
         private int energy = 0;
         private bool isWalking = false;
+        public bool IsWalking
+        {
+            get
+            {
+                return this.isWalking;
+            }
+        }
 
         private Dictionary<GamePlayerDirection, Bitmap> textureDictionary = new Dictionary<GamePlayerDirection, Bitmap>();
         private Dictionary<GamePlayerDirection, GameAnimation> animationDictionary = new Dictionary<GamePlayerDirection, GameAnimation>();
@@ -40,6 +47,10 @@ namespace LazySnake.Engine
         public void SetGameObject(GameObject gameObject)
         {
             this.gameObject = gameObject;
+        }
+        public GameObject GetGameObject()
+        {
+            return this.gameObject;
         }
 
         public int GetEnergy()
