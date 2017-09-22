@@ -5,15 +5,49 @@ The ideia is costruct the best script for a devide that the boy Marcus, who does
 The device can just see one meter in front him, and detect what it's on your front. Your object, it's create a beste script to go to the key using logic and resolve the path's problems.
 
 # The game rules
-First of all, you need to understand that the devide uses battery to work. So, every time that you move Marcus on the path, the battery
-goes down. You start with some battery energy and you need get the key before the battery goes out.
+First of all, you need to understand that the devide uses battery to work. So, every time that you walk with Marcus on the path, the battery goes down. You start with some battery energy and you need get the key before the battery goes out, because without batery, Marcus can't see anymore.
 
-In the way, you can get some extra baterry to recharge the devide. It's importante consider that on your script.
-Marcus can look arround, turning in the eight position, like the image above.
+In the way, you can get some extra baterry to charge your device. It's important consider that on your script, because you need to go until the baterry to charge.
+
+Before walk, you can use Marcus to look arround, turning in the eight possible positions, like the image above:
 
 ![Animation of player moviment](https://github.com/alissonrubim/LazySnake/blob/master/Screenshots/player-animation.gif)
 
+Turning the player cost anything. but, after turn the player, you can now walk in this direction. Remember: walk cost one energy of the device, so, you need have sure that you want walk in this direction.
 
+So, now, you need to find the better way to get on the key, before your energy goes out. Gook luck!
+
+# The commands list
+In the script, you need to create a method called **Loop**. 
+
+ ```csharp
+  public void LBAction Loop(LBPlayer player, LBTarget target){
+     return LBAction.TurnLeft;
+  }
+ ```
+
+This method receive some kind of informations. Like the Player object, and the target (key) position.
+You can seet more in this table:
+
+**#put here the table with the parameters#**
+
+The Loop method needs return an object, the **LBAction** thats will be used to command the player.
+
+Comand | Cost | Description
+------------ | ------------- | -------------
+LBAction.TurnUpLeft | 0 |
+LBAction.TurnUp | 0 |
+LBAction.TurnUpRight | 0 |
+LBAction.TurnLeft | 0  |
+LBAction.TurnRight | 0 |
+LBAction.TurnDownLeft | 0 | 
+LBAction.TurnDown | 0 | Turn the player for the bottom
+LBAction.TurnDownRight | 0 | Turn the player for the right bottom corner
+LBAction.Walk | 1 | Walk one block in the direction that the player it's pointed
+*LBAction.FireSensor | 4 | Fire the sensor for the directio that the player it's pointed. Return an integer that's is the number os free blocks in his front*
+
+
+# More details about the code
 Using my own engine, for 2D games, you just need move the "player" (that's an animal, like a snake) for the path using command lines.
 The objective is get the target before your energy go out.
 
@@ -23,17 +57,6 @@ You can eat food during the path, each food give you more 10 energy.
 You can user a radar, for one direction, that give you the distance (in blocks) to the wall (or target).
 You object is get at the target with the best code.
 
-## Commands list
 
-Comand | Cost | Description
------------- | ------------- | -------------
-.TurnUpLeft() | 0 |
-.TurnUp() | 0 |
-.TurnUpRight() | 0 |
-.TurnLeft() | 0  |
-.TurnRight() | 0 |
-.TurnBottomLeft() | 0 | 
-.TurnBottom() | 0 | Turn the player for the bottom
-.TurnBottomRight() | 0 | Turn the player for the right bottom corner
-.Walk() | 1 | Walk one block in the direction that the player it's pointed
-.FireSensor() | 4 | Fire the sensor for the directio that the player it's pointed. Return an integer that's is the number os free blocks in his front
+
+
