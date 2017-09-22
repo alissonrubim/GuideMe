@@ -7,8 +7,11 @@ The device can just see one meter in front him, and detect what it's on your fro
 # The game rules
 First of all, you need to understand that the devide uses battery to work. So, every time that you move Marcus on the path, the battery
 goes down. You start with some battery energy and you need get the key before the battery goes out.
+
 In the way, you can get some extra baterry to recharge the devide. It's importante consider that on your script.
 Marcus can look arround, turning in the eight position, like the image above.
+
+![Animation of player moviment](https://github.com/alissonrubim/LazySnake/blob/master/Screenshots/player-animation.gif)
 
 
 Using my own engine, for 2D games, you just need move the "player" (that's an animal, like a snake) for the path using command lines.
