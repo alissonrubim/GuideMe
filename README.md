@@ -29,7 +29,7 @@ In the script, you need to create a method called **Loop**.
 This method receive some kind of informations. Like the Player object, and the target (key) position.
 You can seet more in this examples:
 
-### The LBTarget object
+###### The LBTarget object
  ```csharp
   public void LBAction Loop(LBPlayer player, LBTarget target){
      int posX = target.Position.X //The position of the target in the map
@@ -42,7 +42,7 @@ Comand | Description
 LBTarget.Position.X | Return's the number os block in the map, that's the position of the target in the row
 LBTarget.Position.Y | Return's the number os block in the map, that's the position of the target in the col
 
-### The LBPlayer object
+###### The LBPlayer object
  ```csharp
   public void LBAction Loop(LBPlayer player, LBTarget target){
      int posX = player.Position.X //The position of the player in the map
@@ -59,7 +59,7 @@ LBTarget.Position.Y | Return's the number os block in the map, that's the positi
      }
   }
  ```
-### The LBAction result object
+###### The LBAction result object
 
 The Loop method needs return an object, the **LBAction** thats will be used to command the player.
 
