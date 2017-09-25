@@ -1,15 +1,15 @@
 # The Lazy Boy
-The Lazy Boy is a game, created for help TI students to improove their logic and make betters solutions for problems.
-The ideia is costruct the best script for a devide that the boy Marcus, who does not see well, uses to guide him in the paths.
+The Lazy Boy is a game, created for help TI students to improve their logic and makes better solutions for problems.
+The idea is construct the best script for a device that the Marcus, a boy who does not see very well, uses to guide him in the paths.
 
-The device can just see one meter in front him, and detect what it's on your front. Your object, it's create a beste script to go to the key using logic and resolve the path's problems.
+The device can just see one meter (or block) in his front and detect what is on your front. Your objective is create a best script to go get the Marcus's house key using logic and resolve the path problems.
 
 ## The game rules
-First of all, you need to understand that the devide uses battery to work. So, every time that you walk with Marcus on the path, the battery goes down. You start with some battery energy and you need get the key before the battery goes out, because without batery, Marcus can't see anymore.
+First of all, you need to understand that the device uses battery to work. So every time that's you walk with Marcus on the path, the battery goes down. You start with some battery energy and you need get the key before the energy goes out, because without batery, Marcus can't see anymore.
 
-In the way, you can get some extra baterry to charge your device. It's important consider that on your script, because you need to go until the baterry to charge.
+In the way, you can get some extra battery to charge your device. It's important consider that on your script, because you need these batteries to continue walking.
 
-Before walk, you can use Marcus to look arround, turning in the eight possible positions, like the image above:
+Before walk, you can turn Marcus around, making him look in the eight possible positions, like the image below:
 
 ![Animation of player moviment](https://github.com/alissonrubim/LazySnake/blob/master/Screenshots/player-animation.gif)
 
