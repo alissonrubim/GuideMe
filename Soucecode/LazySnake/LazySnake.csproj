@@ -141,21 +141,12 @@
     <None Include="Resources\Images\Rock.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Images\Apple.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Maps\Map01.xml">
       <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Images\Diamond.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Images\wall_bottom.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Images\wall_side.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Images\wall_top.png" />
@@ -183,18 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Images\wall_7.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Images\Diamond_1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Images\Diamond_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Images\player_1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Images\player_2.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Images\sprites_player.png" />

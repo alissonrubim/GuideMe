@@ -120,8 +120,6 @@ namespace LazySnake
             List<Vertex> caminho;
             if (algoritmo.Start(engine.GetMap(), origem, meta, new Heuristic(), out caminho))
             {
-                ///mostrarCaminho(caminho);
-                MessageBox.Show("caminho encontrado!");
                 caminho.Reverse();
 
                 Thread anotherThread = new Thread(new ThreadStart(() =>

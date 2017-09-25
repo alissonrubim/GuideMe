@@ -135,7 +135,7 @@
   <vertex col="12" row="0">1</vertex>
   <vertex col="12" row="1">0</vertex>
   <vertex col="12" row="2">0</vertex>
-  <vertex col="12" row="3">3</vertex>
+  <vertex col="12" row="3">0</vertex>
   <vertex col="12" row="4">0</vertex>
   <vertex col="12" row="5">0</vertex>
   <vertex col="12" row="6">0</vertex>
@@ -200,23 +200,23 @@
 
   <vertex col="18" row="0">1</vertex>
   <vertex col="18" row="1">0</vertex>
-  <vertex col="18" row="2">0</vertex>
-  <vertex col="18" row="3">0</vertex>
-  <vertex col="18" row="4">0</vertex>
-  <vertex col="18" row="5">0</vertex>
-  <vertex col="18" row="6">0</vertex>
-  <vertex col="18" row="7">0</vertex>
+  <vertex col="18" row="2">1</vertex>
+  <vertex col="18" row="3">1</vertex>
+  <vertex col="18" row="4">1</vertex>
+  <vertex col="18" row="5">1</vertex>
+  <vertex col="18" row="6">1</vertex>
+  <vertex col="18" row="7">1</vertex>
   <vertex col="18" row="8">0</vertex>
   <vertex col="18" row="9">1</vertex>
 
   <vertex col="19" row="0">1</vertex>
   <vertex col="19" row="1">0</vertex>
-  <vertex col="19" row="2">0</vertex>
+  <vertex col="19" row="2">1</vertex>
   <vertex col="19" row="3">0</vertex>
   <vertex col="19" row="4">0</vertex>
-  <vertex col="19" row="5">0</vertex>
+  <vertex col="19" row="5">3</vertex>
   <vertex col="19" row="6">0</vertex>
-  <vertex col="19" row="7">0</vertex>
+  <vertex col="19" row="7">1</vertex>
   <vertex col="19" row="8">0</vertex>
   <vertex col="19" row="9">1</vertex>
 
@@ -227,8 +227,8 @@
   <vertex col="20" row="4">0</vertex>
   <vertex col="20" row="5">0</vertex>
   <vertex col="20" row="6">0</vertex>
-  <vertex col="20" row="7">0</vertex>
-  <vertex col="20" row="8">0</vertex>
+  <vertex col="20" row="7">1</vertex>
+  <vertex col="20" row="8">1</vertex>
   <vertex col="20" row="9">1</vertex>
 
   <vertex col="21" row="0">1</vertex>

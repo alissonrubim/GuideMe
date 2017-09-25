@@ -229,19 +229,19 @@ namespace LazySnake.Engine
             }, new System.Windows.Point(0, BlockSize * -1)));
 
             players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.UpLeft, createWalkAnimation(new Bitmap[]{
-                playerSpriteSheet.GetSprite(3, 6),
-                playerSpriteSheet.GetSprite(3, 7),
-                playerSpriteSheet.GetSprite(3, 8),
-                playerSpriteSheet.GetSprite(3, 9),
-                playerSpriteSheet.GetSprite(3, 10)
-            }, new System.Windows.Point(BlockSize * -1, BlockSize * -1)));
-
-            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.UpRight, createWalkAnimation(new Bitmap[]{
                 playerSpriteSheet.GetSprite(2, 6),
                 playerSpriteSheet.GetSprite(2, 7),
                 playerSpriteSheet.GetSprite(2, 8),
                 playerSpriteSheet.GetSprite(2, 9),
                 playerSpriteSheet.GetSprite(2, 10)
+            }, new System.Windows.Point(BlockSize * -1, BlockSize * -1)));
+
+            players[0].AddWalkAnimation(GamePlayer.GamePlayerDirection.UpRight, createWalkAnimation(new Bitmap[]{
+                playerSpriteSheet.GetSprite(3, 6),
+                playerSpriteSheet.GetSprite(3, 7),
+                playerSpriteSheet.GetSprite(3, 8),
+                playerSpriteSheet.GetSprite(3, 9),
+                playerSpriteSheet.GetSprite(3, 10)
             }, new System.Windows.Point(BlockSize, BlockSize * -1)));
 
 
