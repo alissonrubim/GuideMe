@@ -5,7 +5,7 @@ The idea is construct the best script for a device that the Marcus, a boy who do
 The device can just see one meter (or block) in his front and detect what is on your front. Your objective is create a best script to go get the Marcus's house key using logic and resolve the path problems.
 
 ## The game rules
-First of all, you need to understand that the device uses battery to work. So every time that's you walk with Marcus on the path, the battery goes down. You start with some battery energy and you need get the key before the energy goes out, because without batery, Marcus can't see anymore.
+First of all, you need to understand that the device uses battery to work. So every time that's you walk with Marcus on the path, the battery goes down. You start with some battery energy and you need get the key before the energy ends, because without batery, Marcus can't see anymore.
 
 In the way, you can get some extra battery to charge your device. It's important consider that on your script, because you need these batteries to continue walking.
 
@@ -13,9 +13,9 @@ Before walk, you can turn Marcus around, making him look in the eight possible p
 
 ![Animation of player moviment](https://github.com/alissonrubim/LazySnake/blob/master/Screenshots/player-animation.gif)
 
-Turning the player cost anything. but, after turn the player, you can now walk in this direction. Remember: walk cost one energy of the device, so, you need have sure that you want walk in this direction.
+Turning the player not cost any energy, but after turn the player, you need walk. Marcus just walk in the direction that he is looking, and you need to remember: walk cost one energy of the device, so you need have sure that you want walk in this direction.
 
-So, now, you need to find the better way to get on the key, before your energy goes out. Gook luck!
+So now you need to find the better way to get the key, before your energy ends. Good luck!
 
 ## The commands list
 In the script, you need to create a method called **Loop**. 
