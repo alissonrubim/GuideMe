@@ -1,5 +1,5 @@
-# The Lazy Boy
-The Lazy Boy is a game, created for help TI students to improve their logic and makes better solutions for problems.
+# Guide Me
+Guide Me is a game, created for help TI students to improve their logic and makes better solutions for problems.
 The idea is construct the best script for a device that the Marcus, a boy who does not see very well, uses to guide him in the paths.
 
 The device can just see one meter (or block) in his front and detect what is on your front. Your objective is create a best script to go get the Marcus's house key using logic and resolve the path problems.
