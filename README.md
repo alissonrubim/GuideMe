@@ -59,27 +59,25 @@ LBTarget.Position.Y | Return's the number os block in the map, that's the positi
  This object contains only functions related with the device/player.
  Each function can have a cost of energy, so pay attention in that when you write your scrypt.
 
- ```csharp
-  public void LBAction Loop(LBPlayer player, LBTarget target){
-     int posX = player.Position.X //The position of the player in the map
-     int posY = player.Position.Y //The position of the player in the map
-     
-     if(player.WhatsAhead() == LBObject.Target){
-        return LBAction.Walk;
-     }else{
-        if(player.Direction == LBDirections.Left){
-          return LBAction.Walk;
-        }else{
-          return LBAction.TurnLeft;
-        }
-     }
-  }
- ```
-###### The LBAction result object
+Comand | Battery Cost | Description
+------------ | ------------- | -------------
+.UseSensor | 1 | Return a LBObject the represents what's it's in front of the player
+.UseSuperSensor | 4 | Fire the sensor for the direction that the player it's pointed. Return an integer that's is the number os free blocks in his front. Items like Battery of Key, don't count as a block.
+.LookingAtDirection | 0 | Returns wich direct the player it's looking for.
 
+###### The LBObject enum
+
+Type | Description
+------------ | ------------- 
+.Wall | Has a wall in front of you, you can't go futher
+.Target | The key it's in front of you. You need to walk one more step to pick it up.
+.Battery | Has a batery in front of you. You need to walk one more step to pick it up.
+.Nothing | You path it's free.
+
+###### The LBAction enum
 The Loop method needs return an object, the **LBAction** thats will be used to command the player.
 
-Comand | Cost | Description
+Type | Battery Cost | Description
 ------------ | ------------- | -------------
 LBAction.TurnUpLeft | 0 | Turn the player to top left conner
 LBAction.TurnUp | 0 | Turn the player to top
@@ -90,7 +88,29 @@ LBAction.TurnDownLeft | 0 | Turn the player to left bottom coner
 LBAction.TurnDown | 0 | Turn the player for the bottom
 LBAction.TurnDownRight | 0 | Turn the player for the right bottom corner
 LBAction.Walk | 1 | Walk one block in the direction that the player it's pointed
-*LBAction.FireSensor | 4 | Fire the sensor for the directio that the player it's pointed. Return an integer that's is the number os free blocks in his front*
+
+
+ ```csharp
+  public LBAction Loop(LBPlayer player, LBTarget target){
+     int posX = player.Position.X //The position of the player in the map
+     int posY = player.Position.Y //The position of the player in the map
+     
+     if(player.UseSensor() == LBObject.Target){
+        return LBAction.Walk; //Finish the game
+     }else{
+        if(player.LookingAtDirection == LBDirections.Left){
+          if(player.UseSensor() == LBObject.Nothing)
+             return LBAction.Walk;
+          if(player.UserSensor() == LBObject.Wall){
+              //...some strange logic here
+          } 
+        }else{
+          //...
+        }
+        //...
+     }
+  }
+ ```
 
 
 # More details about the code and the engine.
