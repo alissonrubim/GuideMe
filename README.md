@@ -87,8 +87,8 @@ LBAction.TurnToRight | 0 | Turn the player to right
 LBAction.TurnToDownLeft | 0 | Turn the player to left bottom coner
 LBAction.TurnToDown | 0 | Turn the player for the bottom
 LBAction.TurnToDownRight | 0 | Turn the player for the right bottom corner
-LBAction.TurnLeft | 1 | Turn the player one left (<-)position, not TO the left.
-LBAction.TurnRight | 1 | Turn the player one right (->) position, not TO the right.
+LBAction.TurnLeft | 0 | Turn the player one left (<-)position, not TO the left.
+LBAction.TurnRight | 0 | Turn the player one right (->) position, not TO the right.
 LBAction.Walk | 1 | Walk one block in the direction that the player it's pointed
 
 
@@ -125,14 +125,14 @@ I'm not perfect and I'm sure that my code has some mistakes or stupid smell code
 ### What's is missing in this project
 I love this project, but i don't have the full time to work with it. I'm working in it at some nigths and free weekends.
 There is a list of missing things that I need to do:
-    For a good release:
-          * Implement the energy bar at the GUI
-          * Implement the energy calculation
-          * Implement code runtime building to understand the code from the user.
-          * Play/Stop commands to stop running the code.
-    Would be nice if have:
-          * Ant-locking system against endless loop.
-          * Two games running to do a competition between codes.
-          * A clock to register the time to find the key.          
+For a good release:
+* Implement the energy bar at the GUI
+* Implement the energy calculation
+* Implement code runtime building to understand the code from the user.
+* Play/Stop commands to stop running the code.
+Would be nice if have:
+* Ant-locking system against endless loop.
+* Two games running to do a competition between codes.
+* A clock to register the time to find the key.          
 
 I have a lot of ideas and things to do in this project. If you like it and want make some difference in the IT schools, I will be glade to work with you. You can reach me by my Twitter (@alissonrubim) or Email (alissonrubim@gmail.com).
