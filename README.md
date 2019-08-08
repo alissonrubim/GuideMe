@@ -125,11 +125,13 @@ I'm not perfect and I'm sure that my code has some mistakes or stupid smell code
 ### What's is missing in this project
 I love this project, but i don't have the full time to work with it. I'm working in it at some nigths and free weekends.
 There is a list of missing things that I need to do:
+
 For a good release:
 * Implement the energy bar at the GUI
 * Implement the energy calculation
 * Implement code runtime building to understand the code from the user.
 * Play/Stop commands to stop running the code.
+
 Would be nice if have:
 * Ant-locking system against endless loop.
 * Two games running to do a competition between codes.
